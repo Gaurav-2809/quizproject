@@ -3,7 +3,7 @@ body{
 }
 .image img{
     height: 350px;
-    width: 350px;
+    width: 450px;
     position: absolute;
     margin-left: 30px;
 }
@@ -25,7 +25,9 @@ body{
 #header{
     margin-top: 40px;
 }
-
+.box{
+    padding-left: 40px;
+}
 .form{
     position: relative;
     margin-top: 60px;
@@ -57,7 +59,7 @@ input[type=text]{
       border: none;
       border-bottom: 2px solid;
       border-color: black;
-      font-size: 16px;
+      font-size: 16px
   }
 
 @media (max-width: 765px){
@@ -68,10 +70,8 @@ input[type=text]{
     .form{
         margin-top: 350px;
     }
-    .box{
-        padding-left: 0px;
-    }
 }
+
 @media (max-width: 360px){
     input[type=text]{
         font-size: 20px;
@@ -82,10 +82,7 @@ input[type=text]{
     input[type=password]{
         font-size: 20px;
     }
-    label[for=password]{
-        font-size: 20px;
-    }
-    .btn5{
+    label[for=fpassword]{
         font-size: 20px;
     }
 }
