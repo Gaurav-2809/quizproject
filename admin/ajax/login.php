@@ -1,20 +1,19 @@
 <?php
-    include('connection.php');
+    include('connection1.php');
     session_start();
     if(isset($_POST['token']) && password_verify("logintoken",$_POST['token']))
     {
-        $Username =$_POST['email1'];
-        $pass =$_POST['password'];
-
+        $email=$_POST['email'];
+        $password=$_POST['password'];
 
         $query = $db->prepare('SELECT * FROM quizdata WHERE email=?');
-        $data = array($Username);
+        $data = array($email);
         $execute = $query->execute($data);
         if($query->rowcount()>0)
         {
             while($datarow=$query->fetch())
             {
-                if(password_verify($pass,$datarow['password']))
+                if(password_verify($password,$datarow['password']))
                 {
                     $_SESSION['id']=$datarow['uid'];
                     $_SESSION['email']=$datarow['email'];

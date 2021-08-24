@@ -31,7 +31,7 @@
                                 <div class="form">
                                     <form>
                                         <label for="text">Username:</label><br>
-                                        <input type="text" placeholder="Enter Username" name="email" 
+                                        <input type="text" placeholder="Enter email" name="email" 
                                         id="email" class="form-control"><br>
                                         <label for="password">Password:</label><br>
                                         <input type="password" class="form-control" placeholder="Enter Password" 
@@ -61,7 +61,7 @@
                    {
                        type: 'POST',
                        url:"ajax/login.php",
-                       data:{email1:email,password:password,token:token},
+                       data:{email:email,password:password,token:token},
                        success:function(data)
                        {
                         if(data==0){
