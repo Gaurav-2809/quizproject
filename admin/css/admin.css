@@ -73,10 +73,10 @@ input[type=text]{
 }
 
 @media (max-width: 360px){
-    input[type=text]{
+    input[type=email]{
         font-size: 20px;
     }
-    label[for=fname]{
+    label[for=email]{
         font-size: 20px;
     }
     input[type=password]{
