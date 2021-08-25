@@ -81,4 +81,8 @@
        }
     }
 </script>
+<script type="text/javascript">
+    $('form').submit(function(e) {
+    e.preventDefault();
+});</script>
 </html>
