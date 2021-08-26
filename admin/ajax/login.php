@@ -3,8 +3,8 @@
     session_start();
     if(isset($_POST['token']) && password_verify("logintoken",$_POST['token']))
     {
-        $email=$_POST['email'];
-        $password=$_POST['password'];
+        $email=test_input($_POST['email']);
+        $password=test_input($_POST['password']);
 
         $query = $db->prepare('SELECT * FROM quizdata WHERE email=?');
         $data = array($email);
@@ -33,7 +33,12 @@
     else{
         echo "server error";
     }
-
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+      }
  
 
 
