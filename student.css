@@ -68,15 +68,13 @@ input[type=text]{
     .form{
         margin-top: 350px;
     }
-    .box{
-        padding-left: 0px;
-    }
+    
 }
 @media (max-width: 360px){
     input[type=text]{
         font-size: 20px;
     }
-    label[for=fname]{
+    label[for=text]{
         font-size: 20px;
     }
     input[type=password]{
