@@ -149,7 +149,7 @@
                                 </div>
                             </div>
                             <div class="button1">
-                                <button class="btn1" onclick="addteacher();"style="margin-top: 2rem;">SUBMIT</button>
+                                <button class="btn1" onclick="addteacher();" style="margin-top: 2rem;">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -197,126 +197,109 @@
     });
 
 
-    function adduni()
-    {
-       var uname = document.getElementById('uname').value;
-       var token = "<?php echo password_hash("unitoken", PASSWORD_DEFAULT);?>"
-       if(uname!=="")
-       {
-        $.ajax(
-                   {
-                       type: 'POST',
-                       url:"ajax/adduni.php",
-                       data:{uname:uname,token:token},
-                       success:function(data)
-                       {
-                        if(data ==0)
-                         {
-                             alert('university added successfully');
-                             window.location="dashboard.php";
-                         }      
-                       }
+    function adduni() {
+        var uname = document.getElementById('uname').value;
+        var token = "<?php echo password_hash("unitoken", PASSWORD_DEFAULT);?>"
+        if (uname !== "") {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: "ajax/adduni.php",
+                    data: { uname: uname, token: token },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('university added successfully');
+                            window.location = "dashboard.php";
+                        }
                     }
-               );
-       } 
-       else
-       {
-           alert('please fill all details');
-       }
+                }
+            );
+        }
+        else {
+            alert('please fill all details');
+        }
     }
 
-    function addclass()
-    {
-       var class1 = document.getElementById('class1').value;
-       var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT);?>"
-       if(class1!=="")
-       {
-        $.ajax(
-                   {
-                       type: 'POST',
-                       url:"ajax/addclass.php",
-                       data:{class1:class1,token:token},
-                       success:function(data)
-                       {
-                        if(data ==0)
-                         {
-                             alert('class added successfully');
-                             window.location="dashboard.php";
-                         }      
-                       }
+    function addclass() {
+        var class1 = document.getElementById('class1').value;
+        var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT);?>"
+        if (class1 !== "") {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: "ajax/addclass.php",
+                    data: { class1: class1, token: token },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('class added successfully');
+                            window.location = "dashboard.php";
+                        }
                     }
-               );
-       } 
-       else
-       {
-           alert('please fill all details');
-       }
+                }
+            );
+        }
+        else {
+            alert('please fill all details');
+        }
     }
 
 
 
-    function addteacher()
-    {
-       var tname = document.getElementById('tname').value;
-       var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
-       if(tname!=="")
-       {
-        $.ajax(
-                   {
-                       type: 'POST',
-                       url:"ajax/addteacher.php",
-                       data:{tname:tname,token:token},
-                       success:function(data)
-                       {
-                        if(data ==0)
-                         {
-                             alert('teacher added successfully');
-                             window.location="dashboard.php";
-                         }      
-                       }
+    function addteacher() {
+        var tname = document.getElementById('tname').value;
+        var class2 = document.getElementById('class2').value;
+        var university = document.getElementById('university').value;
+        var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
+        if (tname !== "" && class2 != "" && university != "") {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: "ajax/addteacher.php",
+                    data: { tname: tname, class2: class2, university: university, token: token },
+                    success: function (data) {
+                        if (data == 0) {
+                            alert('teacher added successfully');
+                            window.location = "dashboard.php";
+                        }
                     }
-               );
-       } 
-       else
-       {
-           alert('please fill all details');
-       }
+                }
+            );
+        }
+        else {
+            alert('please fill all details');
+        }
     }
 
     getuni();
-    function getuni()
-    {
+    function getuni() {
         var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
 
         $.ajax(
-                   {
-                       type: 'POST',
-                       url:"ajax/getuni.php",
-                       data:{token:token},
-                       success:function(data)
-                       {
-                        $('#list').html(data);     
-                       }
-                    }
-               );
+            {
+                type: 'POST',
+                url: "ajax/getuni.php",
+                data: { token: token },
+                success: function (data) {
+                    $('#list').html(data);
+                }
+            }
+        );
     }
 
     getclass();
-    function getclass()
-    {
+    function getclass() {
         var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>"
 
         $.ajax(
-                   {
-                       type: 'POST',
-                       url:"ajax/getclass.php",
-                       data:{token:token},
-                       success:function(data)
-                       {
-                        $('#list1').html(data);     
-                       }
-                    }
-               );
+            {
+                type: 'POST',
+                url: "ajax/getclass.php",
+                data: { token: token },
+                success: function (data) {
+                    $('#list1').html(data);
+                }
+            }
+        );
     }
 </script>
 <script type=text/javascript>

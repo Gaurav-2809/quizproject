@@ -14,7 +14,7 @@ if(isset($_POST['token']) && password_verify("getuni",$_POST['token']))
         while($datarow=$query->fetch())
         {
     ?>
-    <option value="<?php echo $datarow['id']?>"><?php echo $datarow['uname']?></option>
+    <option><?php echo $datarow['uname']?></option>
     <?php } ?>
 </select>
 <?php

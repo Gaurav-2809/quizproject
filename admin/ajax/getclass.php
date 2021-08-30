@@ -9,12 +9,12 @@ if(isset($_POST['token']) && password_verify("getclass",$_POST['token']))
 
         $execute=$query->execute($data);
 ?>
-<select name="class1" id="class1" class="form-control">
+<select name="class2" id="class2" class="form-control">
     <?php
         while($datarow=$query->fetch())
         {
     ?>
-    <option value="<?php echo $datarow['id']?>"><?php echo $datarow['class']?></option>
+    <option><?php echo $datarow['class']?></option>
     <?php } ?>
 </select>
 <?php
