@@ -6,7 +6,7 @@ if(isset($_POST['token']) && password_verify("unitoken",$_POST['token']))
 
     if($uname!="")
     {
-        $query=$db->prepare("INSERT INTO users(uname) VALUES (?)");
+        $query=$db->prepare("INSERT INTO adduniversity(uname) VALUES (?)");
 
         $data=array($uname);
 

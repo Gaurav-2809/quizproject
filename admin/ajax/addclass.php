@@ -2,7 +2,7 @@
 include('connection1.php');
 if(isset($_POST['token']) && password_verify("classtoken",$_POST['token']))
 {
-    $class=test_input($_POST['class']);
+    $class=test_input($_POST['class1']);
 
     if($class!="")
     {

@@ -90,6 +90,9 @@
 .button1{
     text-align: center;
 }
+.form-group label{
+    margin-top: 2rem;
+}
 .hidden{
 	display: none;
 }

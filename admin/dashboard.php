@@ -83,7 +83,7 @@
                             TOTAL CLASS
                         </div>
                         <div class="icon1">
-                            <i class="fas fa-users-class"></i>
+                            <i class="fas fa-chalkboard"></i>
                         </div>
                         <div class="no">
                             10+
@@ -108,7 +108,7 @@
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
                     <form>
-                        <div class="form1" id="form1">
+                        <div class="form1 show" id="form1">
                             <label for="uname">ADD UNIVERSITY:</label><br>
                             <input type="text" placeholder="Enter University" class="form-control" name="uname"
                                 id="uname"><br>
@@ -118,17 +118,17 @@
                         </div>
                     </form>
                     <form>
-                        <div class="form2" id="form2">
+                        <div class="form2 hidden" id="form2">
                             <label for="class">ADD CLASS:</label><br>
-                            <input type="text" placeholder="Enter Class" class="form-control" name="class"
-                                id="class"><br>
+                            <input type="text" placeholder="Enter Class" class="form-control" name="class1"
+                                id="class1"><br>
                             <div class="button1">
-                                <button class="btn1" onclick="adclass();">SUBMIT</button>
+                                <button class="btn1" onclick="addclass();">SUBMIT</button>
                             </div>
                         </div>
                     </form>
                     <form>
-                        <div class="form3" id="form3">
+                        <div class="form3 hidden" id="form3">
                             <label for="tname">ADD TEACHER:</label><br>
                             <input type="text" placeholder="Enter Teacher" class="form-control" name="tname"
                                 id="tname"><br>
@@ -137,19 +137,19 @@
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
                                 <div class="contain-input">
-                                    <div class="list" id="list" style="width: 100%; float: left;"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="tclass">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
                                     <div class="list1" id="list1" style="width: 100%; float: left;"></div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="uni" style="margin-top: 2rem;">CHOOSE UNIVERSITY</label><br>
+                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
+                                id="class"><br> -->
+                                <div class="contain-input">
+                                    <div class="list" id="list" style="width: 100%; float: left;"></div>
+                                </div>
+                            </div>
                             <div class="button1">
-                                <button class="btn1" onclick="adteacher();">SUBMIT</button>
+                                <button class="btn1" onclick="addteacher();"style="margin-top: 2rem;">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -160,8 +160,8 @@
     </div>
 </body>
 <script type="text/javascript">
-    document.getElementById('form2').style.display = 'none';
-    document.getElementById('form3').style.display = 'none';
+    // document.getElementById('form2').style.display = 'none';
+    // document.getElementById('form3').style.display = 'none';
     var btn = document.getElementById('btn1');
     btn.addEventListener("click", function () {
         var adduni = document.getElementById('form1')
@@ -225,17 +225,17 @@
        }
     }
 
-    function adclass()
+    function addclass()
     {
-       var class = document.getElementById('class').value;
+       var class1 = document.getElementById('class1').value;
        var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT);?>"
-       if(class!=="")
+       if(class1!=="")
        {
         $.ajax(
                    {
                        type: 'POST',
                        url:"ajax/addclass.php",
-                       data:{class:class,token:token},
+                       data:{class1:class1,token:token},
                        success:function(data)
                        {
                         if(data ==0)
@@ -255,7 +255,7 @@
 
 
 
-    function adteacher()
+    function addteacher()
     {
        var tname = document.getElementById('tname').value;
        var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
@@ -281,6 +281,42 @@
        {
            alert('please fill all details');
        }
+    }
+
+    getuni();
+    function getuni()
+    {
+        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+
+        $.ajax(
+                   {
+                       type: 'POST',
+                       url:"ajax/getuni.php",
+                       data:{token:token},
+                       success:function(data)
+                       {
+                        $('#list').html(data);     
+                       }
+                    }
+               );
+    }
+
+    getclass();
+    function getclass()
+    {
+        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>"
+
+        $.ajax(
+                   {
+                       type: 'POST',
+                       url:"ajax/getclass.php",
+                       data:{token:token},
+                       success:function(data)
+                       {
+                        $('#list1').html(data);     
+                       }
+                    }
+               );
     }
 </script>
 <script type=text/javascript>
