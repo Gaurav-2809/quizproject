@@ -1,0 +1,98 @@
+.navbar{
+    background-color: rgb(255, 82, 2);
+    height: 63rem;
+}
+.navbar ul li{
+    list-style: none;
+    padding: 1.1rem;
+}
+.navbar ul li a{
+    color: rgb(0, 0, 0);
+    font-size: 2rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+.dash{
+    font-size: 2rem;
+    font-weight: bold;
+}
+.navbar ul li #dash1{
+    background-color: black;
+}
+.navbar ul li:hover{
+    background-color: white;
+}
+.icon{
+    font-size: 6rem;
+    text-align: center;
+    color: white;
+}
+.admin{
+    background-color: rgb(59, 49, 146);
+    text-align: center;
+    color: white;
+    font-weight: 900;
+    font-size: 2rem;
+    padding: 0.8rem;
+}
+.box1{
+    background-color: rgb(238, 197, 61);
+    height: 11rem;
+    margin-bottom: 1rem;
+}
+.uni{
+    padding: 0.8rem;
+    font-size: 1.8rem;
+    color: black;
+    font-weight: 800
+}
+.icon1{
+    float: right;
+    font-size: 3.5rem;
+    color: black;
+    padding-right: 1rem;
+}
+.no{
+    font-size: 2.8rem;
+    padding: 1.5rem;
+    color: black;
+    font-weight: 600;
+}
+.form1{
+    background-color: rgb(177, 177, 177);
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-radius: 1rem;
+}
+.form2{
+    background-color: rgb(177, 177, 177);
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-radius: 1rem;
+}
+.form3{
+    background-color: rgb(177, 177, 177);
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-radius: 1rem;
+}
+.btn1{
+    background-color: rgb(138, 99, 201);
+    text-align: center;
+    padding: 0.5rem;
+    width: 30%;
+    color: white;
+    border: none;
+    border-bottom: 2px solid;
+    border-color: black;
+    font-size: 1.5rem;
+}
+.button1{
+    text-align: center;
+}
+.hidden{
+	display: none;
+}
+.show{
+	display: block;
+}
