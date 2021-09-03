@@ -1,14 +1,15 @@
 <?php
 include('connection1.php');
+session_start();
 if(isset($_POST['token']) && password_verify("classtoken",$_POST['token']))
 {
     $class=test_input($_POST['class1']);
+    $uid=test_input($_POST['uid']);
 
-    if($class!="")
-    {
-        $query=$db->prepare("INSERT INTO addclass(class) VALUES (?)");
+    
+        $query=$db->prepare("INSERT INTO addclass(class,uid) VALUES (?,?)");
 
-        $data=array($class);
+        $data=array($class,$uid);
 
         $execute=$query->execute($data);
         if($execute)
@@ -18,12 +19,10 @@ if(isset($_POST['token']) && password_verify("classtoken",$_POST['token']))
         else{
             echo"something went wrong";
         }
-    }
+    
 
 }
-else{
-    echo "server error";
-}
+
 
 function test_input($data) {
     $data = trim($data);

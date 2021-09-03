@@ -122,8 +122,16 @@
                             <label for="class">ADD CLASS:</label><br>
                             <input type="text" placeholder="Enter Class" class="form-control" name="class1"
                                 id="class1"><br>
+                            <div class="form-group">
+                                <label for="uni">CHOOSE UNIVERSITY</label><br>
+                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
+                                id="class"><br> -->
+                                <div class="contain-input">
+                                    <div class="list" id="list" style="width: 100%; float: left;"></div>
+                                </div>
+                            </div>
                             <div class="button1">
-                                <button class="btn1" onclick="addclass();">SUBMIT</button>
+                                <button  style="margin-top: 2rem;" class="btn1" onclick="addclass();">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -145,7 +153,7 @@
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
                                 <div class="contain-input">
-                                    <div class="list" id="list" style="width: 100%; float: left;"></div>
+                                    <div class="list2" id="list2" style="width: 100%; float: left;"></div>
                                 </div>
                             </div>
                             <div class="button1">
@@ -222,13 +230,14 @@
 
     function addclass() {
         var class1 = document.getElementById('class1').value;
+        var uid = document.getElementById('university').value;
         var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT);?>"
         if (class1 !== "") {
             $.ajax(
                 {
                     type: 'POST',
                     url: "ajax/addclass.php",
-                    data: { class1: class1, token: token },
+                    data: { class1: class1, uid: uid, token: token },
                     success: function (data) {
                         if (data == 0) {
                             alert('class added successfully');
@@ -280,27 +289,44 @@
                 url: "ajax/getuni.php",
                 data: { token: token },
                 success: function (data) {
+                    alert(data)
                     $('#list').html(data);
+                    $('#list2').html(data);
                 }
             }
         );
     }
-
-    getclass();
     function getclass() {
-        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>"
-
+        var uid = document.getElementById('university').value;
+        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>" 
+        alert(uid)
         $.ajax(
             {
                 type: 'POST',
                 url: "ajax/getclass.php",
-                data: { token: token },
+                data: { uid: uid, token: token },
                 success: function (data) {
                     $('#list1').html(data);
                 }
             }
         );
     }
+
+
+    // function getclass(uid) {
+    //     var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>"
+
+    //     $.ajax(
+    //         {
+    //             type: 'POST',
+    //             url: "ajax/getclass.php",
+    //             data: { token: token },
+    //             success: function (data) {
+    //                 $('#list1').html(data);
+    //             }
+    //         }
+    //     );
+    // }
 </script>
 <script type=text/javascript>
  $('form').submit(function(e){
