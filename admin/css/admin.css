@@ -70,6 +70,9 @@ input[type=text]{
     .form{
         margin-top: 350px;
     }
+    .image img {
+        margin-left: 0px;
+}
 }
 
 @media (max-width: 360px){

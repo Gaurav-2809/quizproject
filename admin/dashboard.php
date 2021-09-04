@@ -296,6 +296,7 @@
             }
         );
     }
+
     function getclass() {
         var uid = document.getElementById('university').value;
         var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>" 
@@ -315,12 +316,12 @@
 
     // function getclass(uid) {
     //     var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>"
-
+    //     var uid = document.getElementById('university').value;
     //     $.ajax(
     //         {
     //             type: 'POST',
     //             url: "ajax/getclass.php",
-    //             data: { token: token },
+    //             data: { uid:uid, token: token },
     //             success: function (data) {
     //                 $('#list1').html(data);
     //             }
