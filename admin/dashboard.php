@@ -140,22 +140,23 @@
                             <label for="tname">ADD TEACHER:</label><br>
                             <input type="text" placeholder="Enter Teacher" class="form-control" name="tname"
                                 id="tname"><br>
-                            <div class="form-group">
-                                <label for="tclass">CHOOSE CLASS</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
-                                    <div class="list1" id="list1" style="width: 100%; float: left;"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="uni" style="margin-top: 2rem;">CHOOSE UNIVERSITY</label><br>
+                                <div class="form-group">
+                                <label for="uni" ">CHOOSE UNIVERSITY</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
                                 <div class="contain-input">
                                     <div class="list2" id="list2" style="width: 100%; float: left;"></div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="tclass" style="margin-top: 2rem;">CHOOSE CLASS</label><br>
+                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
+                                id="class"><br> -->
+                                <div class="contain-input">
+                                    <div class="list1" id="list1" style="width: 100%; float: left;"></div>
+                                </div>
+                            </div>
+                            
                             <div class="button1">
                                 <button class="btn1" onclick="addteacher();" style="margin-top: 2rem;">SUBMIT</button>
                             </div>
@@ -289,7 +290,6 @@
                 url: "ajax/getuni.php",
                 data: { token: token },
                 success: function (data) {
-                    alert(data)
                     $('#list').html(data);
                     $('#list2').html(data);
                 }
@@ -299,7 +299,7 @@
 
     function getclass() {
         var uid = document.getElementById('university').value;
-        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>" 
+        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
         alert(uid)
         $.ajax(
             {

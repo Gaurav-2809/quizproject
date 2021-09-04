@@ -3,15 +3,15 @@ include('connection1.php');
 session_start();
 if(isset($_POST['token']) && password_verify("getclass",$_POST['token']))
 {
-        $uid = $_POST['uid'];
+        $uid =$_POST['uid'];
 // $uid=2;
-        $query=$db->prepare('SELECT * FROM addclass WHERE uid=?');
+        $query=$db->prepare('SELECT * FROM addclass WHERE uid = ?');
 
         $data=array($uid);
 
         $execute=$query->execute($data);
 ?>
-<select name="class2" id="class2" class="form-control">
+<select name="class" id="class" class="form-control" >
 <option value="0">SELECT CLASS</option>
     <?php
         while($datarow=$query->fetch())
@@ -23,5 +23,6 @@ if(isset($_POST['token']) && password_verify("getclass",$_POST['token']))
 <?php
 
     }
+    
 
 ?>

@@ -4,7 +4,7 @@ session_start();
 if(isset($_POST['token']) && password_verify("classtoken",$_POST['token']))
 {
     $class=test_input($_POST['class1']);
-    $uid=test_input($_POST['uid']);
+    $uid=$_POST['uid'];
 
     
         $query=$db->prepare("INSERT INTO addclass(class,uid) VALUES (?,?)");
