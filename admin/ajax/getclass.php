@@ -11,7 +11,7 @@ if(isset($_POST['token']) && password_verify("getclass",$_POST['token']))
 
         $execute=$query->execute($data);
 ?>
-<select name="class" id="class" class="form-control" >
+<select name="class" id="class" class="form-control">
 <option value="0">SELECT CLASS</option>
     <?php
         while($datarow=$query->fetch())

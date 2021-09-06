@@ -107,54 +107,37 @@
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
+                    
                     <form>
-                        <div class="form1 show" id="form1">
-                            <label for="uname">ADD UNIVERSITY:</label><br>
-                            <input type="text" placeholder="Enter University" class="form-control" name="uname"
-                                id="uname"><br>
-                            <div class="button1">
-                                <button class="btn1" onclick="adduni();">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
-                    <form>
-                        <div class="form2 hidden" id="form2">
-                            <label for="class">ADD CLASS:</label><br>
-                            <input type="text" placeholder="Enter Class" class="form-control" name="class1"
-                                id="class1"><br>
-                            <div class="form-group">
-                                <label for="uni">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
-                                    <div class="list3" id="list3" style="width: 100%; float: left;"></div>
-                                </div>
-                            </div>
-                            <div class="button1">
-                                <button  style="margin-top: 2rem;" class="btn1" onclick="addclass();">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
-                    <form>
-                        <div class="form3 hidden" id="form3">
+                        <div class="form3 show" id="form3">
                             <label for="tname">ADD TEACHER:</label><br>
                             <input type="text" placeholder="Enter Teacher" class="form-control" name="tname"
                                 id="tname"><br>
-                                <div class="form-group">
+                                <label for="email">ADD EMAIL:</label><br>
+                            <input type="text" placeholder="Enter Email" class="form-control" name="email"
+                                id="email"><br>
+                            <div class="form-group">
                                 <label for="uni">CHOOSE UNIVERSITY</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
-                                <div class="contain-input">
+                                <select name="university1" id="university1" class="form-control" onchange="getclass();">
+                                     <option value="0">SELECT UNIVERSITY</option>
+                                </select>
+                                <!-- <div class="contain-input">
                                     <div class="list2" id="list2" style="width: 100%; float: left;"></div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="form-group">
-                                <label for="tclass" style="margin-top: 2rem;">CHOOSE CLASS</label><br>
+                                <label for="tclass"">CHOOSE CLASS</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
-                                <div class="contain-input">
+                                
+                                 <select name="classs" id="classs" class="form-control" >
+                                     <option value="0">SELECT CLASS</option> 
+                                </select> 
+                                <!-- <div class="contain-input">
                                     <div class="list1" id="list1" style="width: 100%; float: left;"></div>
-                                </div>
+                                </div> -->
                             </div>
                             
                             <div class="button1">
@@ -169,20 +152,22 @@
     </div>
 </body>
 <script type="text/javascript">
-    
 
-    function adduni() {
-        var uname = document.getElementById('uname').value;
-        var token = "<?php echo password_hash("unitoken", PASSWORD_DEFAULT);?>"
-        if (uname !== "") {
+    function addteacher() {
+        var tname = document.getElementById('tname').value;
+        var email = document.getElementById('email').value;
+        var class1 = document.getElementById('classs').value;
+        var university = document.getElementById('university1').value;
+        var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
+        if (tname !== "" && email !== "" && class1 != "" && university != "") {
             $.ajax(
                 {
                     type: 'POST',
-                    url: "ajax/adduni.php",
-                    data: { uname: uname, token: token },
+                    url: "ajax/addteacher.php",
+                    data: { tname: tname, class1: class1, email: email, university: university, token: token },
                     success: function (data) {
                         if (data == 0) {
-                            alert('university added successfully');
+                            alert('teacher added successfully');
                             window.location = "dashboard.php";
                         }
                     }
@@ -192,6 +177,38 @@
         else {
             alert('please fill all details');
         }
+    }
+getuni();
+    function getuni() {
+        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: "ajax/cgetuni.php",
+                data: { token: token },
+                success: function (data) {
+                    // $('#list').html(data);
+                    $('#university1').html(data);
+                }
+            }
+        );
+    }
+
+    function getclass() {
+        var uid = document.getElementById('university1').value;
+        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
+        alert(uid)
+        $.ajax(
+            {
+                type: 'POST',
+                url: "ajax/getclass.php",
+                data: { uid: uid, token: token },
+                success: function (data) {
+                    $('#classs').html(data);
+                }
+            }
+        );
     }
 
 </script>

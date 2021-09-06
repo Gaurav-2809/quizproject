@@ -9,7 +9,7 @@ if(isset($_POST['token']) && password_verify("getuni", $_POST['token']))
 
         $execute=$query->execute($data);
 ?>
-<select name="university" id="university" class="form-control">
+<select name="university" id="university" class="form-control" onchange="getclass();">
     <option value="0">SELECT UNIVERSITY</option>
     <?php
         while($datarow=$query->fetch())

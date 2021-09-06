@@ -107,18 +107,9 @@
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
+                    
                     <form>
-                        <div class="form1 show" id="form1">
-                            <label for="uname">ADD UNIVERSITY:</label><br>
-                            <input type="text" placeholder="Enter University" class="form-control" name="uname"
-                                id="uname"><br>
-                            <div class="button1">
-                                <button class="btn1" onclick="adduni();">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
-                    <form>
-                        <div class="form2 hidden" id="form2">
+                        <div class="form2 show" id="form2">
                             <label for="class">ADD CLASS:</label><br>
                             <input type="text" placeholder="Enter Class" class="form-control" name="class1"
                                 id="class1"><br>
@@ -135,33 +126,7 @@
                             </div>
                         </div>
                     </form>
-                    <form>
-                        <div class="form3 hidden" id="form3">
-                            <label for="tname">ADD TEACHER:</label><br>
-                            <input type="text" placeholder="Enter Teacher" class="form-control" name="tname"
-                                id="tname"><br>
-                                <div class="form-group">
-                                <label for="uni">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
-                                    <div class="list2" id="list2" style="width: 100%; float: left;"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="tclass" style="margin-top: 2rem;">CHOOSE CLASS</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
-                                    <div class="list1" id="list1" style="width: 100%; float: left;"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="button1">
-                                <button class="btn1" onclick="addteacher();" style="margin-top: 2rem;">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
+                    
                 </div>
                 <div class="col-sm-3"></div>
             </div>
@@ -171,18 +136,19 @@
 <script type="text/javascript">
     
 
-    function adduni() {
-        var uname = document.getElementById('uname').value;
-        var token = "<?php echo password_hash("unitoken", PASSWORD_DEFAULT);?>"
-        if (uname !== "") {
+    function addclass() {
+        var class1 = document.getElementById('class1').value;
+        var uid = document.getElementById('university').value;
+        var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT);?>"
+        if (class1 !== "") {
             $.ajax(
                 {
                     type: 'POST',
-                    url: "ajax/adduni.php",
-                    data: { uname: uname, token: token },
+                    url: "ajax/addclass.php",
+                    data: { class1: class1, uid: uid, token: token },
                     success: function (data) {
                         if (data == 0) {
-                            alert('university added successfully');
+                            alert('class added successfully');
                             window.location = "dashboard.php";
                         }
                     }
@@ -193,7 +159,24 @@
             alert('please fill all details');
         }
     }
+getuni();
+    function getuni() {
+        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
 
+        $.ajax(
+            {
+                type: 'POST',
+                url: "ajax/getuni.php",
+                data: { token: token },
+                success: function (data) {
+                    $('#list3').html(data);
+                    // $('#list2').html(data);
+                }
+            }
+        );
+    }
+
+   
 </script>
 <script type=text/javascript>
  $('form').submit(function(e){

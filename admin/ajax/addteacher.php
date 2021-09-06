@@ -1,16 +1,18 @@
 <?php
 include('connection1.php');
+session_start();
 if(isset($_POST['token']) && password_verify("teachertoken",$_POST['token']))
 {
     $tname=test_input($_POST['tname']);
-    $class=test_input($_POST['class2']);
+    $email=test_input($_POST['email']);
+    $class=test_input($_POST['class1']);
     $university=test_input($_POST['university']);
 
     if($tname!="")
     {
-        $query=$db->prepare("INSERT INTO addteacher(tname,class,university) VALUES (?,?,?)");
+        $query=$db->prepare("INSERT INTO addteacher(tname,email,university,class) VALUES (?,?,?,?)");
 
-        $data=array($tname,$class,$university);
+        $data=array($tname,$email,$class,$university);
 
         $execute=$query->execute($data);
         if($execute)
