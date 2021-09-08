@@ -1,6 +1,6 @@
 .navbar{
     background-color: rgb(255, 82, 2);
-    height: 63rem;
+    height: 90rem;
 }
 .navbar ul li{
     list-style: none;
@@ -75,6 +75,7 @@
     padding: 1.5rem;
     margin-top: 3rem;
     border-radius: 1rem;
+    margin-bottom: 5rem;
 }
 .btn1{
     background-color: rgb(138, 99, 201);
