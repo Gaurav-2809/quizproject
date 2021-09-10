@@ -63,12 +63,23 @@
     padding: 1.5rem;
     margin-top: 3rem;
     border-radius: 1rem;
+    margin-bottom: 5rem;
+}
+.btn4{
+    padding: 1.5rem;
+    font-size: 2rem;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
 }
 .form2{
     background-color: rgb(177, 177, 177);
     padding: 1.5rem;
     margin-top: 3rem;
     border-radius: 1rem;
+    margin-bottom: 5rem;
 }
 .form3{
     background-color: rgb(177, 177, 177);

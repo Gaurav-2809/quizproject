@@ -15,7 +15,7 @@
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/normalize.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
@@ -43,7 +43,11 @@
                     <li>
                         <a href="addteacher.php" id="btn3">ADD TEACHER</a>
                     </li>
-
+                    <li>
+                        <div class="btn2">
+                            <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -149,11 +153,8 @@
                 </div>
                 <div class="col-sm-3"></div>
             </div>
-            <div class="box-footer">       
-            <div class="btn2">
-                <button class="btn4" onclick="showtable();">show</button>
-            </div>
-            <div class="tabledesign">
+            <div class="box-footer">
+                <div class="tabledesign">
                     <div class="listclass" id="listclass"></div>
                 </div>
             </div>
@@ -161,83 +162,85 @@
     </div>
 </body>
 <script type="text/javascript">
-
-    function addteacher() {
-        var tname = document.getElementById('tname').value;
-        var email = document.getElementById('email').value;
-        var class1 = document.getElementById('classs').value;
-        var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
-        if (tname !== "" && email !== "" && class1 != "") {
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: "ajax/addteacher.php",
-                    data: { tname: tname, class1: class1, email: email, token: token },
-                    success: function (data) {
-                        if (data == 0) {
-                            alert('teacher added successfully');
-                            window.location = "dashboard.php";
-                        }
-                    }
+function addteacher() {
+    var tname = document.getElementById('tname').value;
+    var email = document.getElementById('email').value;
+    var class1 = document.getElementById('classs').value;
+    var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
+    if (tname !== "" && email !== "" && class1 != "") {
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addteacher.php",
+            data: {
+                tname: tname,
+                class1: class1,
+                email: email,
+                token: token
+            },
+            success: function(data) {
+                if (data == 0) {
+                    alert('teacher added successfully');
+                    window.location = "dashboard.php";
                 }
-            );
+            }
+        });
+    } else {
+        alert('please fill all details');
+    }
+}
+getuni();
+
+function getuni() {
+    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+
+    $.ajax({
+        type: 'POST',
+        url: "ajax/cgetuni.php",
+        data: {
+            token: token
+        },
+        success: function(data) {
+            // $('#list').html(data);
+            $('#university1').html(data);
         }
-        else {
-            alert('please fill all details');
+    });
+}
+
+function getclass() {
+    var uid = document.getElementById('university1').value;
+    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "ajax/getclass.php",
+        data: {
+            uid: uid,
+            token: token
+        },
+        success: function(data) {
+            $('#classs').html(data);
         }
-    }
-    getuni();
-    function getuni() {
-        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+    });
+}
 
-        $.ajax(
-            {
-                type: 'POST',
-                url: "ajax/cgetuni.php",
-                data: { token: token },
-                success: function (data) {
-                    // $('#list').html(data);
-                    $('#university1').html(data);
-                }
-            }
-        );
-    }
-
-    function getclass() {
-        var uid = document.getElementById('university1').value;
-        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
-        $.ajax(
-            {
-                type: 'POST',
-                url: "ajax/getclass.php",
-                data: { uid: uid, token: token },
-                success: function (data) {
-                    $('#classs').html(data);
-                }
-            }
-        );
-    }
-
-    // getallteacher();
-    function showtable() {
-        var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
-        $.ajax(
-            {
-                type: 'POST',
-                url: "ajax/getallteacher.php",
-                data: { token: token },
-                success: function (data) {
-                    $('#listclass').html(data);
-                }
-            }
-        );
-    }
-
+// getallteacher();
+function showtable() {
+    var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "ajax/getallteacher.php",
+        data: {
+            token: token
+        },
+        success: function(data) {
+            $('#listclass').html(data);
+        }
+    });
+}
 </script>
 <script type=text/javascript>
- $('form').submit(function(e){
-     e.preventDefault();
- });
+$('form').submit(function(e) {
+    e.preventDefault();
+});
 </script>
 
 </html>

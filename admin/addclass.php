@@ -42,7 +42,11 @@
                     <li>
                         <a href="addteacher.php" id="btn3">ADD TEACHER</a>
                     </li>
-
+                    <li>
+                        <div class="btn2">
+                            <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -130,6 +134,11 @@
                 </div>
                 <div class="col-sm-3"></div>
             </div>
+            <div class="box-footer">
+                <div class="tabledesign">
+                    <div class="listclass" id="listclass"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -175,7 +184,19 @@ getuni();
             }
         );
     }
-
+    function showtable() {
+    var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "ajax/getallteacher.php",
+        data: {
+            token: token
+        },
+        success: function(data) {
+            $('#listclass').html(data);
+        }
+    });
+}
    
 </script>
 <script type=text/javascript>

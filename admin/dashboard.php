@@ -42,7 +42,11 @@
                     <li>
                         <a href="addteacher.php" id="btn3">ADD TEACHER</a>
                     </li>
-
+                    <li>
+                        <div class="btn2">
+                            <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -131,7 +135,7 @@
                                 </div>
                             </div>
                             <div class="button1">
-                                <button  style="margin-top: 2rem;" class="btn1" onclick="addclass();">SUBMIT</button>
+                                <button style="margin-top: 2rem;" class="btn1" onclick="addclass();">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -140,7 +144,7 @@
                             <label for="tname">ADD TEACHER:</label><br>
                             <input type="text" placeholder="Enter Teacher" class="form-control" name="tname"
                                 id="tname"><br>
-                                <div class="form-group">
+                            <div class="form-group">
                                 <label for="uni">CHOOSE UNIVERSITY</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
@@ -156,7 +160,7 @@
                                     <div class="list1" id="list1" style="width: 100%; float: left;"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="button1">
                                 <button class="btn1" onclick="addteacher();" style="margin-top: 2rem;">SUBMIT</button>
                             </div>
@@ -165,40 +169,56 @@
                 </div>
                 <div class="col-sm-3"></div>
             </div>
+            <div class="box-footer">
+                <div class="tabledesign">
+                    <div class="listclass" id="listclass"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 <script type="text/javascript">
-    
-
-    function adduni() {
-        var uname = document.getElementById('uname').value;
-        var token = "<?php echo password_hash("unitoken", PASSWORD_DEFAULT);?>"
-        if (uname !== "") {
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: "ajax/adduni.php",
-                    data: { uname: uname, token: token },
-                    success: function (data) {
-                        if (data == 0) {
-                            alert('university added successfully');
-                            window.location = "dashboard.php";
-                        }
-                    }
+function adduni() {
+    var uname = document.getElementById('uname').value;
+    var token = "<?php echo password_hash("unitoken", PASSWORD_DEFAULT);?>"
+    if (uname !== "") {
+        $.ajax({
+            type: 'POST',
+            url: "ajax/adduni.php",
+            data: {
+                uname: uname,
+                token: token
+            },
+            success: function(data) {
+                if (data == 0) {
+                    alert('university added successfully');
+                    window.location = "dashboard.php";
                 }
-            );
-        }
-        else {
-            alert('please fill all details');
-        }
+            }
+        });
+    } else {
+        alert('please fill all details');
     }
+}
 
+function showtable() {
+    var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "ajax/getallteacher.php",
+        data: {
+            token: token
+        },
+        success: function(data) {
+            $('#listclass').html(data);
+        }
+    });
+}
 </script>
 <script type=text/javascript>
- $('form').submit(function(e){
-     e.preventDefault();
- });
+$('form').submit(function(e) {
+    e.preventDefault();
+});
 </script>
 
 </html>
