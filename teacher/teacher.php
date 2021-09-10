@@ -64,7 +64,7 @@
                        {
                         if(data==0){
                             alert('login successfull');
-                            window.location="dashboard.php";
+                            window.location="teacdashboard.php";
                         }
                         else{
                             alert(data)

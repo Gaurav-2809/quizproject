@@ -1,0 +1,99 @@
+.navbar{
+    background-color: rgb(255, 82, 2);
+    height: 90rem;
+}
+.navbar ul li{
+    list-style: none;
+    padding: 1.1rem;
+}
+.navbar ul li a{
+    color: rgb(0, 0, 0);
+    font-size: 2rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+.dash{
+    font-size: 2rem;
+    font-weight: bold;
+}
+.navbar ul li #dash1{
+    background-color: black;
+}
+.navbar ul li:hover{
+    background-color: white;
+}
+.icon{
+    font-size: 6rem;
+    text-align: center;
+    color: white;
+}
+.icon2{
+    font-size: 6rem;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    padding: 1rem;
+}
+.teacher{
+    background-color: rgb(59, 49, 146);
+    text-align: center;
+    color: white;
+    font-weight: 900;
+    font-size: 2rem;
+    padding: 0.8rem;
+}
+.box1{
+    background-color: rgb(238, 197, 61);
+    height: 11rem;
+    margin-bottom: 1rem;
+}
+.uni{
+    padding: 0.8rem;
+    font-size: 1.8rem;
+    color: black;
+    font-weight: 800
+}
+.icon1{
+    float: right;
+    font-size: 3.5rem;
+    color: black;
+    padding-right: 1rem;
+}
+.no{
+    font-size: 2.8rem;
+    padding: 1.5rem;
+    color: black;
+    font-weight: 600;
+}
+.wel{
+    font-size: 2.4rem;
+    font-weight: 900;
+    text-align: center;
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+.tname{
+    /* padding-left: 1rem;
+    padding-right: 1rem; */
+    font-size: 2.4rem;
+    font-weight: 900;
+    text-align: center;
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+.id{
+    font-size: 1.7rem;
+    padding-left: 1rem;
+    font-weight: 900;
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+.box{
+    background-color: rgb(155, 224, 245);
+    height: 25rem;
+}
+.hidden{
+	display: none;
+}
+.show{
+	display: block;
+}
