@@ -111,7 +111,9 @@
                             <label for="sname">STUDENT NAME:</label><br>
                             <input type="text" placeholder="Enter Student Name" class="form-control" name="sname"
                                 id="sname"><br>
-
+                            <label for="email">EMAIL:</label><br>
+                            <input type="email" placeholder="Enter Email" class="form-control" name="email"
+                                id="email"><br>
                             <div class="form-group">
                                 <label for="uni">CHOOSE UNIVERSITY</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
@@ -164,21 +166,23 @@
 <script type=text/javascript>
 function addstudent() {
     var sname = document.getElementById('sname').value;
+    var email = document.getElementById('email').value;
     var university = document.getElementById('university1').value;
     var class1 = document.getElementById('classs').value;
     var token = "<?php echo password_hash("studenttoken", PASSWORD_DEFAULT);?>"
-    if (sname !== "" && university !== "" && class1 != "") {
+    if (sname !== "" && email !== "" && university !== "" && class1 != "") {
         $.ajax({
             type: 'POST',
             url: "ajax/addstudent.php",
             data: {
                 sname: sname,
+                email: email,
                 university: university,
                 class1: class1,
                 token: token
             },
             success: function(data) {
-                // alert(data)
+                // alert(data);
                 if (data == 0) {
                     alert('student added successfully');
                     window.location = "teacdashboard.php";
@@ -193,6 +197,7 @@ function addstudent() {
 
 
 getuni();
+
 function getuni() {
     var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
 

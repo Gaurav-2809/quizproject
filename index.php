@@ -60,7 +60,7 @@
          $.ajax(
                    {
                        type: 'POST',
-                       url:"ajax/login.php",
+                       url:"login.php",
                        data:{email:email,password:password,token:token},
                        success:function(data)
                        {

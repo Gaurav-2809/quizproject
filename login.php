@@ -1,12 +1,12 @@
 <?php
-    include('connection.php');
+    include('connection1.php');
     session_start();
     if(isset($_POST['token']) && password_verify("logintoken",$_POST['token']))
     {
         $email=test_input($_POST['email']);
         $password=test_input($_POST['password']);
 
-        $query = $db->prepare('SELECT * FROM quizdata WHERE email=?');
+        $query = $db->prepare('SELECT * FROM addstudent WHERE email=?');
         $data = array($email);
         $execute = $query->execute($data);
         if($query->rowcount()>0)
@@ -15,7 +15,6 @@
             {
                 if(password_verify($password,$datarow['password']))
                 {
-                    $_SESSION['id']=$datarow['uid'];
                     $_SESSION['email']=$datarow['email'];
                     echo 0;
                 }
