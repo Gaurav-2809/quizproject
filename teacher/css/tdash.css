@@ -82,7 +82,7 @@
 }
 .id{
     font-size: 1.7rem;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     font-weight: 900;
     color: black;
     font-family: 'Times New Roman', Times, serif;
@@ -90,10 +90,31 @@
 .box{
     background-color: rgb(155, 224, 245);
     height: 25rem;
+    margin-top: 3rem;
 }
-.hidden{
+/* .hidden{
 	display: none;
 }
 .show{
 	display: block;
+} */
+.form1{
+    background-color: rgb(177, 177, 177);
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-radius: 1rem;
+    margin-bottom: 5rem;
+}
+.btn1{
+    background-color: rgb(138, 99, 201);
+    padding: 0.5rem;
+    width: 30%;
+    color: white;
+    border: none;
+    border-bottom: 2px solid;
+    border-color: black;
+    font-size: 1.5rem;
+}
+.button1{
+    text-align: center;
 }

@@ -34,15 +34,14 @@
                         </div>
                     </li>
                     <li>
-                        <a href="dashboard.php" id="btn1">ADD STUDENT</a>
+                        <a href="addstudent" id="btn1">ADD STUDENT</a>
                     </li>
                     <li>
-                        <a href="addstudent.php" id="btn2">ADD TEST</a>
+                        <a href="addtest.php" id="btn2">ADD TEST</a>
                     </li>
                     <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -106,7 +105,42 @@
             </div>
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
-                <div class="col-sm-6"></div>
+                <div class="col-sm-6">
+                    <form>
+                        <div class="form1 show" id="form1">
+                            <label for="sname">STUDENT NAME:</label><br>
+                            <input type="text" placeholder="Enter Student Name" class="form-control" name="sname"
+                                id="sname"><br>
+
+                            <div class="form-group">
+                                <label for="uni">CHOOSE UNIVERSITY</label><br>
+                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
+                                id="class"><br> -->
+                                <select name="university1" id="university1" class="form-control" onchange="getclass();">
+                                    <option value="0">SELECT UNIVERSITY</option>
+                                </select>
+                                <!-- <div class="contain-input">
+                                    <div class="list2" id="list2" style="width: 100%; float: left;"></div>
+                                </div> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="tclass">CHOOSE CLASS</label><br>
+                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
+                                id="class"><br> -->
+
+                                <select name="classs" id="classs" class="form-control">
+                                    <option value="0">SELECT CLASS</option>
+                                </select>
+                                <!-- <div class="contain-input">
+                                    <div class="list1" id="list1" style="width: 100%; float: left;"></div>
+                                </div> -->
+                            </div>
+                            <div class="button1">
+                                <button class="btn1" onclick="addstudent();">SUBMIT</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="col-sm-3">
                     <div class="box">
                         <div class="icon2">
@@ -116,10 +150,10 @@
                             WELCOME
                         </div>
                         <div class="tname">
-                        <?php echo $_SESSION['name']?> 
+                            <?php echo $_SESSION['name']?>
                         </div>
                         <div class="id">
-                        (TEACHER ID = <?php echo $_SESSION['id']?>UNI01)
+                            (TEACHER ID = <?php echo $_SESSION['id']?>UNI01)
                         </div>
                     </div>
                 </div>
@@ -127,11 +161,76 @@
         </div>
     </div>
 </body>
-
 <script type=text/javascript>
- $('form').submit(function(e){
-     e.preventDefault();
- });
+function addstudent() {
+    var sname = document.getElementById('sname').value;
+    var university = document.getElementById('university1').value;
+    var class1 = document.getElementById('classs').value;
+    var token = "<?php echo password_hash("studenttoken", PASSWORD_DEFAULT);?>"
+    if (sname !== "" && university !== "" && class1 != "") {
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addstudent.php",
+            data: {
+                sname: sname,
+                university: university,
+                class1: class1,
+                token: token
+            },
+            success: function(data) {
+                // alert(data)
+                if (data == 0) {
+                    alert('student added successfully');
+                    window.location = "teacdashboard.php";
+                }
+            }
+        });
+    } else {
+        alert('please fill all details');
+    }
+}
+
+
+
+getuni();
+function getuni() {
+    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+
+    $.ajax({
+        type: 'POST',
+        url: "ajax/cgetuni.php",
+        data: {
+            token: token
+        },
+        success: function(data) {
+            // $('#list3').html(data);
+            $('#university1').html(data);
+        }
+    });
+}
+
+
+function getclass() {
+    var uid = document.getElementById('university1').value;
+    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "ajax/getclass.php",
+        data: {
+            uid: uid,
+            token: token
+        },
+        success: function(data) {
+            // alert(data)
+            $('#classs').html(data);
+        }
+    });
+}
+</script>
+<script type=text/javascript>
+$('form').submit(function(e) {
+    e.preventDefault();
+});
 </script>
 
 </html>
