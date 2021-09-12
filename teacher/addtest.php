@@ -34,7 +34,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="addstudent.php" id="btn1">ADD STUDENT</a>
+                        <a href="addstudent" id="btn1">ADD STUDENT</a>
                     </li>
                     <li>
                         <a href="addtest.php" id="btn2">ADD TEST</a>
@@ -108,12 +108,9 @@
                 <div class="col-sm-6">
                     <form>
                         <div class="form1 show" id="form1">
-                            <label for="sname">STUDENT NAME:</label><br>
-                            <input type="text" placeholder="Enter Student Name" class="form-control" name="sname"
-                                id="sname"><br>
-                            <label for="email">EMAIL:</label><br>
-                            <input type="email" placeholder="Enter Email" class="form-control" name="email"
-                                id="email"><br>
+                            <label for="test">TEST NAME:</label><br>
+                            <input type="text" placeholder="Enter Test Name" class="form-control" name="test"
+                                id="test"><br>
                             <div class="form-group">
                                 <label for="uni">CHOOSE UNIVERSITY</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
@@ -138,7 +135,7 @@
                                 </div> -->
                             </div>
                             <div class="button1">
-                                <button class="btn1" onclick="addstudent();">SUBMIT</button>
+                                <button class="btn1" onclick="addtest();">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -164,29 +161,27 @@
     </div>
 </body>
 <script type=text/javascript>
-function addstudent() {
-    var sname = document.getElementById('sname').value;
-    var email = document.getElementById('email').value;
+function addtest() {
+    var test = document.getElementById('test').value;
     var university = document.getElementById('university1').value;
     var class1 = document.getElementById('classs').value;
-    var token = "<?php echo password_hash("studenttoken", PASSWORD_DEFAULT);?>"
-    if (sname !== "" && email !== "" && university !== "" && class1 != "") {
+    var token = "<?php echo password_hash("testtoken", PASSWORD_DEFAULT);?>"
+    if (test !== "" && university !== "" && class1 != "") {
         $.ajax({
             type: 'POST',
-            url: "ajax/addstudent.php",
+            url: "ajax/addtest.php",
             data: {
-                sname: sname,
-                email: email,
+                test: test,
                 university: university,
                 class1: class1,
                 token: token
             },
             success: function(data) {
-                // alert(data);
-                if (data == 0) {
-                    alert('student added successfully');
-                    window.location = "teacdashboard.php";
-                }
+                alert(data);
+                // if (data == 0) {
+                //     alert('test added successfully');
+                //     window.location = "teacdashboard.php";
+                // }
             }
         });
     } else {
