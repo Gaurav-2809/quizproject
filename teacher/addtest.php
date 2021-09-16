@@ -34,7 +34,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="addstudent" id="btn1">ADD STUDENT</a>
+                        <a href="teacdashboard.php" id="btn1">ADD STUDENT</a>
                     </li>
                     <li>
                         <a href="addtest.php" id="btn2">ADD TEST</a>
@@ -42,6 +42,9 @@
                     <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
                     </li>
+                    <div class="btn2">
+                        <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
+                    </div>
                 </ul>
             </div>
         </div>
@@ -157,75 +160,96 @@
                     </div>
                 </div>
             </div>
+            <div class="box-footer">
+                <div class="tabledesign">
+                    <div class="listclass" id="listclass"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 <script type=text/javascript>
 function addtest() {
     var test = document.getElementById('test').value;
-    var university = document.getElementById('university1').value;
     var class1 = document.getElementById('classs').value;
     var token = "<?php echo password_hash("testtoken", PASSWORD_DEFAULT);?>"
-    if (test !== "" && university !== "" && class1 != "") {
+    if (test !== "" && class1 != "") {
+        $.ajax({
+                type: 'POST',
+                url: "ajax/addtest.php",
+                data: {
+                    test: test,
+                    class1: class1,
+                    token: token
+                },
+                success: function(data) {
+                    // alert(data);
+                        if (data == 0) {
+                            alert('test added successfully');
+                            window.location = "teacdashboard.php";
+                        } else {
+                            alert('error found');
+                        }
+                    }
+                });
+        }
+        else {
+            alert('please fill all details');
+        }
+    }
+
+
+    function showtable() {
+        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>";
         $.ajax({
             type: 'POST',
-            url: "ajax/addtest.php",
+            url: "ajax/gettest.php",
             data: {
-                test: test,
-                university: university,
-                class1: class1,
                 token: token
             },
             success: function(data) {
-                alert(data);
-                // if (data == 0) {
-                //     alert('test added successfully');
-                //     window.location = "teacdashboard.php";
-                // }
+                $('#listclass').html(data);
             }
         });
-    } else {
-        alert('please fill all details');
     }
-}
 
 
 
-getuni();
+    getuni();
 
-function getuni() {
-    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+    function getuni() {
+        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
 
-    $.ajax({
-        type: 'POST',
-        url: "ajax/cgetuni.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            // $('#list3').html(data);
-            $('#university1').html(data);
-        }
-    });
-}
+        $.ajax({
+            type: 'POST',
+            url: "ajax/cgetuni.php",
+            data: {
+                token: token
+            },
+            success: function(data) {
+                // $('#list3').html(data);
+                $('#university1').html(data);
+            }
+        });
+    }
 
 
-function getclass() {
-    var uid = document.getElementById('university1').value;
-    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getclass.php",
-        data: {
-            uid: uid,
-            token: token
-        },
-        success: function(data) {
-            // alert(data)
-            $('#classs').html(data);
-        }
-    });
-}
+    function getclass() {
+        var uid = document.getElementById('university1').value;
+        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
+        $.ajax({
+            type: 'POST',
+            url: "ajax/getclass.php",
+            data: {
+                uid: uid,
+                token: token
+            },
+            success: function(data) {
+                // alert(data)
+                $('#classs').html(data);
+            }
+        });
+    }
 </script>
 <script type=text/javascript>
 $('form').submit(function(e) {

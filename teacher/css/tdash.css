@@ -118,3 +118,12 @@
 .button1{
     text-align: center;
 }
+.btn4{
+    padding: 1.5rem;
+    font-size: 2rem;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}

@@ -34,7 +34,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="addstudent.php" id="btn1">ADD STUDENT</a>
+                        <a href="teacdashboard.php" id="btn1">ADD STUDENT</a>
                     </li>
                     <li>
                         <a href="addtest.php" id="btn2">ADD TEST</a>

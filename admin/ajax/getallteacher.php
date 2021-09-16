@@ -11,7 +11,7 @@ if(isset($_POST['token']) && password_verify("getteacher",$_POST['token']))
 
         $execute=$query->execute($data);
 ?>
-<table class= "table table-dark table-hover table-bordered">
+<table class= "table table-hover table-bordered">
     <tr>
         <td>SR. NO.</td>
         <td>NAME</td>

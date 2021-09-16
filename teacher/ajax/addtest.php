@@ -4,14 +4,13 @@ session_start();
 if(isset($_POST['token']) && password_verify("testtoken",$_POST['token']))
 {
     $test=test_input($_POST['test']);
-    $university=test_input($_POST['university']);
     $class=test_input($_POST['class1']);
 
     if($test!="")
     {
 
-        $query=$db->prepare("INSERT INTO addtest(test,university,class) VALUES (?,?,?)");
-        $data=array($test,$university,$class);
+        $query=$db->prepare("INSERT INTO addtest(test,class) VALUES (?,?)");
+        $data=array($test,$class);
         $execute=$query->execute($data);
         if($execute)
         {
