@@ -1,0 +1,81 @@
+#section1{
+    background-color: rgb(230, 232, 235);
+    height: 48rem;
+}
+#section2{
+    background-color: rgb(240, 37, 1);
+    height: 18rem;
+}
+.img1{
+    margin-top: 16rem;
+    height: 12rem;
+    width: 25rem;
+}
+.image{
+    text-align: center;
+}
+.box{
+    margin-left: 2.5rem;
+    margin-top: 4rem;
+    background-color: white;
+    height: 30rem;
+    width:25rem;
+    border-radius: 1.8rem;
+}
+.icon{
+    font-size: 4rem;
+    padding: 2rem;
+    padding-bottom: 0;
+    color: black;
+}
+.text{
+    font-size: 1.8rem;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 2rem;
+    color: black;
+}
+.para{
+    padding: 2rem;
+    padding-top: 0;
+    color: black;
+    font-size: 1.5rem;
+}
+.button1{
+    background-color: red;
+    color: white;
+    font-weight: 200;
+    font-size: 1.6rem;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 1rem;
+}
+.button{
+    padding-left: 2rem;
+}
+.button button a{
+    text-decoration: none;
+    list-style: none;
+    color: white;
+}
+@media (max-width: 1070px){
+    .box{
+        margin-left: 0;
+    }
+}
+@media (max-width: 763px){
+    #section2{
+        height: 125rem;
+    }
+    .box{
+        width: auto;
+        height: 25rem;
+    }
+}
+@media (max-width: 425px){
+    .box{
+        width: auto;
+        height: 30rem;
+    }
+}

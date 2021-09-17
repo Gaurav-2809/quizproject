@@ -43,7 +43,7 @@
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
                     </li>
                     <div class="btn2">
-                        <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
+                        <button class="btn4" onclick="showtable();">SHOW ALL TEST</button>
                     </div>
                 </ul>
             </div>

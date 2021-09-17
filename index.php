@@ -30,8 +30,8 @@
                             <div class="col-sm-6">
                                 <div class="form">
                                     <form>
-                                        <label for="text">Username:</label><br>
-                                        <input type="text" placeholder="Enter email" name="email" 
+                                        <label for="email">Username:</label><br>
+                                        <input type="email" placeholder="Enter email" name="email" 
                                         id="email" class="form-control"><br>
                                         <label for="password">Password:</label><br>
                                         <input type="password" class="form-control" placeholder="Enter Password" 
