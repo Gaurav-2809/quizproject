@@ -66,7 +66,7 @@
                        {
                         if(data==0){
                             alert('login successfull');
-                            window.location="dashboard.php";
+                            window.location="studentdash.php";
                         }
                         else{
                             alert(data)

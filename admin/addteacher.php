@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dashboard</title>
+    <title>admin dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -47,6 +47,9 @@
                         <div class="btn2">
                             <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
                         </div>
+                    </li>
+                    <li>
+                        <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
             </div>

@@ -8,16 +8,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>admin dashboard</title>
+    <title>student dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/normalize.min.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="normalize.min.css">
+    <link rel="stylesheet" href="sdash.css">
 </head>
 
 <body>
@@ -34,18 +34,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="dashboard.php" id="btn1">ADD UNIVERSITY</a>
-                    </li>
-                    <li>
-                        <a href="addclass.php" id="btn2">ADD CLASS</a>
-                    </li>
-                    <li>
-                        <a href="addteacher.php" id="btn3">ADD TEACHER</a>
-                    </li>
-                    <li>
-                        <div class="btn2">
-                            <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
-                        </div>
+                        <button class="btn5"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
                     </li>
                     <li>
                         <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
@@ -54,8 +43,8 @@
             </div>
         </div>
         <div class="col-sm-9" style="padding: 0%;">
-            <div class="admin">
-                ADMIN DASHBOARD
+            <div class="teacher">
+                TEACHER DASHBOARD
             </div>
             <div class="col-sm-12" style="margin-top: 1rem;">
                 <div class="col-sm-3">
@@ -114,98 +103,33 @@
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-                    
-                    <form>
-                        <div class="form2 show" id="form2">
-                            <label for="class">ADD CLASS:</label><br>
-                            <input type="text" placeholder="Enter Class" class="form-control" name="class1"
-                                id="class1"><br>
-                            <div class="form-group">
-                                <label for="uni">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
-                                    <div class="list3" id="list3" style="width: 100%; float: left;"></div>
-                                </div>
-                            </div>
-                            <div class="button1">
-                                <button  style="margin-top: 2rem;" class="btn1" onclick="addclass();">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
-                    
+                   
                 </div>
-                <div class="col-sm-3"></div>
-            </div>
-            <div class="box-footer">
-                <div class="tabledesign">
-                    <div class="listclass" id="listclass"></div>
+                <div class="col-sm-3">
+                    <div class="box">
+                        <div class="icon2">
+                            <i class="fas fa-student"></i>
+                        </div>
+                        <div class="wel">
+                            WELCOME
+                        </div>
+                        <div class="tname">
+                            <?php echo $_SESSION['sname']?>
+                        </div>
+                        <div class="id">
+                            (STUDENT ID = 20BCS0<?php echo $_SESSION['id']?>)
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script type="text/javascript">
-    
 
-    function addclass() {
-        var class1 = document.getElementById('class1').value;
-        var uid = document.getElementById('university').value;
-        var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT);?>"
-        if (class1 !== "") {
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: "ajax/addclass.php",
-                    data: { class1: class1, uid: uid, token: token },
-                    success: function (data) {
-                        if (data == 0) {
-                            alert('class added successfully');
-                            window.location = "dashboard.php";
-                        }
-                    }
-                }
-            );
-        }
-        else {
-            alert('please fill all details');
-        }
-    }
-getuni();
-    function getuni() {
-        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
-
-        $.ajax(
-            {
-                type: 'POST',
-                url: "ajax/getuni.php",
-                data: { token: token },
-                success: function (data) {
-                    $('#list3').html(data);
-                    // $('#list2').html(data);
-                }
-            }
-        );
-    }
-    function showtable() {
-    var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getallteacher.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            $('#listclass').html(data);
-        }
-    });
-}
-   
-</script>
 <script type=text/javascript>
- $('form').submit(function(e){
-     e.preventDefault();
- });
+$('form').submit(function(e) {
+    e.preventDefault();
+});
 </script>
 
 </html>

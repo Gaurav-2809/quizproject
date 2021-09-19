@@ -16,6 +16,7 @@
                 if(password_verify($password,$datarow['password']))
                 {
                     $_SESSION['email']=$datarow['email'];
+                    $_SESSION['sname']=$datarow['sname'];
                     echo 0;
                 }
                 else

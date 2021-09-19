@@ -42,6 +42,9 @@
                     <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
                     </li>
+                    <li>
+                        <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
+                    </li>
                 </ul>
             </div>
         </div>
