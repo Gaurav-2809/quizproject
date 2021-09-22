@@ -44,7 +44,10 @@
                     </li>
                     <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
-                    </li>
+                    </li>    
+                    <div class="btn2">
+                        <button class="btn4" onclick="showtable();">SHOW ALL TEST</button>
+                    </div>
                     <li>
                         <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
@@ -114,37 +117,38 @@
                 <div class="col-sm-6">
                     <form>
                         <div class="form1 show" id="form1">
-                            <label for="sname">STUDENT NAME:</label><br>
-                            <input type="text" placeholder="Enter Student Name" class="form-control" name="sname"
-                                id="sname"><br>
-                            <label for="email">EMAIL:</label><br>
-                            <input type="email" placeholder="Enter Email" class="form-control" name="email"
-                                id="email"><br>
                             <div class="form-group">
-                                <label for="uni">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <select name="university1" id="university1" class="form-control" onchange="getclass();">
-                                    <option value="0">SELECT UNIVERSITY</option>
-                                </select>
-                                <!-- <div class="contain-input">
-                                    <div class="list2" id="list2" style="width: 100%; float: left;"></div>
-                                </div> -->
-                            </div>
-                            <div class="form-group">
-                                <label for="tclass">CHOOSE CLASS</label><br>
+                                <label for="tclass">CHOOSE TEST</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
 
-                                <select name="classs" id="classs" class="form-control">
-                                    <option value="0">SELECT CLASS</option>
+                                <select name="test" id="test" class="form-control">
+                                    <option value="0">SELECT TEST</option>
                                 </select>
                                 <!-- <div class="contain-input">
                                     <div class="list1" id="list1" style="width: 100%; float: left;"></div>
                                 </div> -->
                             </div>
+                            <label for="quiz">Enter question for quiz:</label><br>
+                            <input type="text" placeholder="Enter question" name="ques" id="ques"
+                                class="form-control"><br>
+                            <label for="option">Option 1.</label><br>
+                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
+                                id="option1"><br>
+                            <label for="option">Option 2.</label><br>
+                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
+                                id="option2"><br>
+                            <label for="option">Option 3.</label><br>
+                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
+                                id="option3"><br>
+                            <label for="option">Option 4.</label><br>
+                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
+                                id="option4"><br>
+                            <label for="correct">Correct option</label><br>
+                            <input type="text" class="form-control" placeholder="Enter Correct Option" name="correct"
+                                id="correct"><br>
                             <div class="button1">
-                                <button class="btn1" onclick="addstudent();">SUBMIT</button>
+                                <button class="btn1" onclick="addquestion();">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -166,32 +170,46 @@
                     </div>
                 </div>
             </div>
+            <div class="box-footer">
+                <div class="tabledesign">
+                    <div class="listclass" id="listclass"></div>
+                </div>
+            </div>
         </div>
     </div>
+
 </body>
 <script type=text/javascript>
-function addstudent() {
-    var sname = document.getElementById('sname').value;
-    var email = document.getElementById('email').value;
-    var university = document.getElementById('university1').value;
-    var class1 = document.getElementById('classs').value;
-    var token = "<?php echo password_hash("studenttoken", PASSWORD_DEFAULT);?>"
-    if (sname !== "" && email !== "" && university !== "" && class1 != "") {
+function addquestion() {
+    var test = document.getElementById('test').value;
+    var ques = document.getElementById('ques').value;
+    var option1 = document.getElementById('option1').value;
+    var option2 = document.getElementById('option2').value;
+    var option3 = document.getElementById('option3').value;
+    var option4 = document.getElementById('option4').value;
+    var correct = document.getElementById('correct').value;
+    var token = "<?php echo password_hash("questiontoken", PASSWORD_DEFAULT);?>"
+    if (test !== "" && ques !== "" && option1 !== "" && option2 !== "" && option3 !== "" && option4 !== "" && correct!=="") {
         $.ajax({
             type: 'POST',
-            url: "ajax/addstudent.php",
+            url: "ajax/addquestion.php",
             data: {
-                sname: sname,
-                email: email,
-                university: university,
-                class1: class1,
+                test: test,
+                ques:ques,
+                option1:option1,
+                option2:option2,
+                option3:option3,
+                option4:option4,
+                correct:correct,
                 token: token
             },
             success: function(data) {
                 // alert(data);
                 if (data == 0) {
-                    alert('student added successfully');
-                    window.location = "teacdashboard.php";
+                    alert('question added successfully');
+                    window.location = "addquestion.php";
+                } else {
+                    alert(data);
                 }
             }
         });
@@ -200,43 +218,37 @@ function addstudent() {
     }
 }
 
+gettest();
+    function gettest() {
+        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>"
 
+        $.ajax(
+            {
+                type: 'POST',
+                url: "ajax/gettest1.php",
+                data: { token: token },
+                success: function (data) {
+                    $('#test').html(data);
+                    // $('#list2').html(data);
+                }
+            }
+        );
+    }
 
-getuni();
-
-function getuni() {
-    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
-
+function showtable() {
+    var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>";
     $.ajax({
         type: 'POST',
-        url: "ajax/cgetuni.php",
+        url: "ajax/gettest.php",
         data: {
             token: token
         },
         success: function(data) {
-            // $('#list3').html(data);
-            $('#university1').html(data);
+            $('#listclass').html(data);
         }
     });
 }
 
-
-function getclass() {
-    var uid = document.getElementById('university1').value;
-    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getclass.php",
-        data: {
-            uid: uid,
-            token: token
-        },
-        success: function(data) {
-            // alert(data)
-            $('#classs').html(data);
-        }
-    });
-}
 </script>
 <script type=text/javascript>
 $('form').submit(function(e) {

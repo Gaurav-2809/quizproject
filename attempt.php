@@ -102,11 +102,17 @@
             </div>
             <div class="col-sm-12">
                 <div class="col-sm-9" style="padding-left: 5rem;">
-                   
+                    <form>
+                        <div class="form-group">
+                            <label for="uni">CHOOSE TEST</label><br>
+                            <select name="list4" id="list4" class="form-control" onchange="getques();">
+                                <option value="0">SELECT TEST NAME</option>
+                            </select>
+                        </div>
                         <div class="test">
                             <div class="list3" id="list3" style="width: 100%; float: left;"></div>
                         </div>
-              
+                    </form>
                 </div>
                 <div class="col-sm-3">
                     <div class="box">
@@ -129,20 +135,34 @@
     </div>
 </body>
 <script type=text/javascript>
-getques();
-
 function getques() {
+    var uid = document.getElementById('list4').value;
     var token = "<?php echo password_hash("getques", PASSWORD_DEFAULT);?>"
-
     $.ajax({
         type: 'POST',
         url: "getques.php",
         data: {
+            uid: uid,
             token: token
         },
         success: function(data) {
             $('#list3').html(data);
-            // $('#list2').html(data);
+        }
+    });
+}
+gettest();
+
+function gettest() {
+    var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "gettest.php",
+        data: {
+            token: token
+        },
+        success: function(data) {
+            // alert(data)
+            $('#list4').html(data);
         }
     });
 }

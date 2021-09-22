@@ -40,6 +40,9 @@
                         <a href="addtest.php" id="btn2">ADD TEST</a>
                     </li>
                     <li>
+                        <a href="addquestion.php" id="btn4">ADD QUESTION</a>
+                    </li>
+                    <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
                     </li>
                     <div class="btn2">
@@ -140,24 +143,7 @@
                                     <div class="list1" id="list1" style="width: 100%; float: left;"></div>
                                 </div> -->
                             </div>
-                            <label for="quiz">Enter question for quiz:</label><br>
-                            <input type="text" placeholder="Enter question" name="ques" id="ques"
-                                class="form-control"><br>
-                            <label for="option">Option 1.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option1"><br>
-                            <label for="option">Option 2.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option2"><br>
-                            <label for="option">Option 3.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option3"><br>
-                            <label for="option">Option 4.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option4"><br>
-                            <label for="correct">Correct option</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Correct Option" name="correct"
-                                id="correct"><br>
+                            
                             <div class="button1">
                                 <button class="btn1" onclick="addtest();">SUBMIT</button>
                             </div>
@@ -194,26 +180,14 @@
 function addtest() {
     var test = document.getElementById('test').value;
     var class1 = document.getElementById('classs').value;
-    var ques = document.getElementById('ques').value;
-    var option1 = document.getElementById('option1').value;
-    var option2 = document.getElementById('option2').value;
-    var option3 = document.getElementById('option3').value;
-    var option4 = document.getElementById('option4').value;
-    var correct = document.getElementById('correct').value;
     var token = "<?php echo password_hash("testtoken", PASSWORD_DEFAULT);?>"
-    if (test !== "" && class1 != "" && ques !== "" && option1 !== "" && option2 !== "" && option3 !== "" && option4 !== "" && correct!=="") {
+    if (test !== "" && class1 != "" ) {
         $.ajax({
             type: 'POST',
             url: "ajax/addtest.php",
             data: {
                 test: test,
                 class1: class1,
-                ques:ques,
-                option1:option1,
-                option2:option2,
-                option3:option3,
-                option4:option4,
-                correct:correct,
                 token: token
             },
             success: function(data) {

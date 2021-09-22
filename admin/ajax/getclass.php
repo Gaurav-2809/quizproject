@@ -4,7 +4,7 @@ session_start();
 if(isset($_POST['token']) && password_verify("getclass",$_POST['token']))
 {
         $uid =$_POST['uid'];
-// $uid=2;
+
         $query=$db->prepare('SELECT * FROM addclass WHERE uid = ?');
 
         $data=array($uid);
