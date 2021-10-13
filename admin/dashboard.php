@@ -217,6 +217,25 @@ function showtable() {
         }
     });
 }
+
+function deleted(i){
+    // alert(i)
+    var token='<?php echo password_hash("deletetoken", PASSWORD_DEFAULT);?>';
+    $.ajax({
+        type: 'POST',
+        url: "ajax/delteacher.php",
+        data: {
+            token: token,
+            id:i
+        },
+        success: function(data) {
+            if (data == 0) {
+                alert('teacher deleted successfully');
+                window.location = "dashboard.php";
+                }
+        }
+    });
+}
 </script>
 <script type=text/javascript>
 $('form').submit(function(e) {

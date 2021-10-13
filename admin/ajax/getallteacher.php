@@ -17,6 +17,7 @@ if(isset($_POST['token']) && password_verify("getteacher",$_POST['token']))
         <td>NAME</td>
         <td>CLASS</td>
         <td>UNIVERSITY</td>
+        <td>DELETE</td>
     </tr>
     <?php
     $srno=1;
@@ -28,6 +29,7 @@ if(isset($_POST['token']) && password_verify("getteacher",$_POST['token']))
         <td><?php echo $datarow['tname'] ?></td>
         <td><?php echo $datarow['class'] ?></td>
         <td><?php echo $datarow['uname'] ?></td>
+        <td><button onclick="deleted(this.value);" class="btn btn-danger" value="<?php echo $datarow['tid']?>">Delete</button></td>
     </tr>
 <?php
 $srno++;

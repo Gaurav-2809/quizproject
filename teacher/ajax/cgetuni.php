@@ -3,7 +3,7 @@ include('connection1.php');
 session_start();
 if(isset($_POST['token']) && password_verify("getuni", $_POST['token']))
 {
-        $query=$db->prepare('SELECT * FROM adduniversity');
+        $query=$db->prepare('SELECT * FROM adduniversity ');
 
         $data=array();
 
