@@ -220,13 +220,14 @@ function addquestion() {
 
 gettest();
     function gettest() {
+        var classId = <?php echo $_SESSION['class']; ?>;
         var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>"
 
         $.ajax(
             {
                 type: 'POST',
                 url: "ajax/gettest1.php",
-                data: { token: token },
+                data: { cid : classId,token: token },
                 success: function (data) {
                     $('#test').html(data);
                     // $('#list2').html(data);

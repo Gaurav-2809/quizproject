@@ -5,15 +5,15 @@ if(isset($_POST['token']) && password_verify("studenttoken",$_POST['token']))
 {
     $sname=test_input($_POST['sname']);
     $email=test_input($_POST['email']);
-    $university=test_input($_POST['university']);
+    // $university=test_input($_POST['university']);
     $class=test_input($_POST['class1']);
 
     if($sname!="")
     {
 
         $password1_hash=password_hash(substr($sname,0,5). "9876", PASSWORD_DEFAULT);
-        $query=$db->prepare("INSERT INTO addstudent(sname,email,university,class,password) VALUES (?,?,?,?,?)");
-        $data=array($sname,$email,$university,$class,$password1_hash);
+        $query=$db->prepare("INSERT INTO addstudent(sname,email,class,password) VALUES (?,?,?,?)");
+        $data=array($sname,$email,$class,$password1_hash);
         $execute=$query->execute($data);
         if($execute)
         {

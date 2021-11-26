@@ -153,11 +153,13 @@ function getques() {
 gettest();
 
 function gettest() {
+    var classId = <?php echo $_SESSION['class']; ?>; 
     var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>";
     $.ajax({
         type: 'POST',
         url: "gettest.php",
         data: {
+            cid : classId,
             token: token
         },
         success: function(data) {

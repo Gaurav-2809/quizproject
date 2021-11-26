@@ -120,17 +120,17 @@
                             <label for="email">EMAIL:</label><br>
                             <input type="email" placeholder="Enter Email" class="form-control" name="email"
                                 id="email"><br>
-                            <div class="form-group">
-                                <label for="uni">CHOOSE UNIVERSITY</label><br>
+                            <!-- <div class="form-group">
+                                <label for="uni">CHOOSE UNIVERSITY</label><br> -->
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
                                 id="class"><br> -->
-                                <select name="university1" id="university1" class="form-control" onchange="getclass();">
+                                <!-- <select name="university1" id="university1" class="form-control" onchange="getclass();">
                                     <option value="0">SELECT UNIVERSITY</option>
-                                </select>
+                                </select> -->
                                 <!-- <div class="contain-input">
                                     <div class="list2" id="list2" style="width: 100%; float: left;"></div>
                                 </div> -->
-                            </div>
+                            <!-- </div> -->
                             <div class="form-group">
                                 <label for="tclass">CHOOSE CLASS</label><br>
                                 <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
@@ -173,17 +173,16 @@
 function addstudent() {
     var sname = document.getElementById('sname').value;
     var email = document.getElementById('email').value;
-    var university = document.getElementById('university1').value;
+    // var university = document.getElementById('university1').value;
     var class1 = document.getElementById('classs').value;
     var token = "<?php echo password_hash("studenttoken", PASSWORD_DEFAULT);?>"
-    if (sname !== "" && email !== "" && university !== "" && class1 != "") {
+    if (sname !== "" && email !== "" && class1 != "") {
         $.ajax({
             type: 'POST',
             url: "ajax/addstudent.php",
             data: {
                 sname: sname,
                 email: email,
-                university: university,
                 class1: class1,
                 token: token
             },
@@ -202,33 +201,34 @@ function addstudent() {
 
 
 
-getuni();
+// getuni();
 
-function getuni() {
-    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
+// function getuni() {
+//     var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
 
-    $.ajax({
-        type: 'POST',
-        url: "ajax/cgetuni.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            // $('#list3').html(data);
-            $('#university1').html(data);
-        }
-    });
-}
+//     $.ajax({
+//         type: 'POST',
+//         url: "ajax/cgetuni.php",
+//         data: {
+//             token: token
+//         },
+//         success: function(data) {
+//             // $('#list3').html(data);
+//             $('#university1').html(data);
+//         }
+//     });
+// }
 
-
+getclass();
 function getclass() {
-    var uid = document.getElementById('university1').value;
+    var classId = <?php echo $_SESSION['class']; ?>;
     var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
     $.ajax({
         type: 'POST',
         url: "ajax/getclass.php",
         data: {
-            uid: uid,
+            // uid: uid,
+            cid : classId,
             token: token
         },
         success: function(data) {
