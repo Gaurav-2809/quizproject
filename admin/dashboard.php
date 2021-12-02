@@ -44,7 +44,7 @@
                     </li>
                     <li>
                         <div class="btn2">
-                            <button class="btn4" onclick="showtable();">SHOW ALL TEACHERS</button>
+                            <button class="btn4" onclick="showuni();">SHOW ALL UNIVERSITY</button>
                         </div>
                     </li>
                     <li>
@@ -203,12 +203,11 @@ function adduni() {
         alert('please fill all details');
     }
 }
-
-function showtable() {
-    var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
+function showuni() {
+    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>";
     $.ajax({
         type: 'POST',
-        url: "ajax/getallteacher.php",
+        url: "ajax/getalluni.php",
         data: {
             token: token
         },
@@ -223,19 +222,22 @@ function deleted(i){
     var token='<?php echo password_hash("deletetoken", PASSWORD_DEFAULT);?>';
     $.ajax({
         type: 'POST',
-        url: "ajax/delteacher.php",
+        url: "ajax/deluni.php",
         data: {
             token: token,
             id:i
         },
         success: function(data) {
             if (data == 0) {
-                alert('teacher deleted successfully');
+                alert('university deleted successfully');
                 window.location = "dashboard.php";
                 }
         }
     });
 }
+
+
+
 </script>
 <script type=text/javascript>
 $('form').submit(function(e) {

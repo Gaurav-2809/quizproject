@@ -44,7 +44,7 @@
         </div>
         <div class="col-sm-9" style="padding: 0%;">
             <div class="teacher">
-                TEACHER DASHBOARD
+                STUDENT DASHBOARD
             </div>
             <div class="col-sm-12" style="margin-top: 1rem;">
                 <div class="col-sm-3">
