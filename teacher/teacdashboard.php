@@ -162,10 +162,9 @@ session_start();
                     processData:false,
                     data: data,
                 success: function(data) {
-                    alert(data);
                     if (data == 0) {
                         alert('student added successfully');
-                        window.location = "teacdashboard.php";
+                        window.location.reload();
                     }
                 }
             });

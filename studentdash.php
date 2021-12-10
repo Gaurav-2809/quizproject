@@ -114,10 +114,10 @@
                             WELCOME
                         </div>
                         <div class="tname">
-                            <?php echo $_SESSION['sname']?>
+                            <?php echo $_SESSION['fname']?>
                         </div>
                         <div class="id">
-                            (STUDENT ID = 20BCS0<?php echo $_SESSION['id']?>)
+                            (STUDENT ID = 20BCS0<?php echo $_SESSION['stdid']?>)
                         </div>
                     </div>
                 </div>

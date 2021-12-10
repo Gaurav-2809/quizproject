@@ -1,5 +1,5 @@
 <?php
-     session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teacher dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -44,7 +43,7 @@
                     </li>
                     <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
-                    </li>    
+                    </li>
                     <div class="btn2">
                         <button class="btn4" onclick="showtable();">SHOW ALL TEST</button>
                     </div>
@@ -115,7 +114,7 @@
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-                    <form>
+                    <form id="excelform">
                         <div class="form1 show" id="form1">
                             <div class="form-group">
                                 <label for="tclass">CHOOSE TEST</label><br>
@@ -129,24 +128,10 @@
                                     <div class="list1" id="list1" style="width: 100%; float: left;"></div>
                                 </div> -->
                             </div>
-                            <label for="quiz">Enter question for quiz:</label><br>
-                            <input type="text" placeholder="Enter question" name="ques" id="ques"
-                                class="form-control"><br>
-                            <label for="option">Option 1.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option1"><br>
-                            <label for="option">Option 2.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option2"><br>
-                            <label for="option">Option 3.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option3"><br>
-                            <label for="option">Option 4.</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Option" name="option"
-                                id="option4"><br>
-                            <label for="correct">Correct option</label><br>
-                            <input type="text" class="form-control" placeholder="Enter Correct Option" name="correct"
-                                id="correct"><br>
+                            <div class="form-group">
+                                <label for="fclass">CHOOSE FILE</label><br>
+                                <input type="file" name="excel" id="excel">
+                            </div>
                             <div class="button1">
                                 <button class="btn1" onclick="addquestion();">SUBMIT</button>
                             </div>
@@ -162,10 +147,10 @@
                             WELCOME
                         </div>
                         <div class="tname">
-                            <?php echo $_SESSION['name']?>
+                            <?php echo $_SESSION['name'] ?>
                         </div>
                         <div class="id">
-                            (TEACHER ID = <?php echo $_SESSION['id']?>UNI01)
+                            (TEACHER ID = <?php echo $_SESSION['id'] ?>UNI01)
                         </div>
                     </div>
                 </div>
@@ -180,81 +165,65 @@
 
 </body>
 <script type=text/javascript>
-function addquestion() {
-    var test = document.getElementById('test').value;
-    var ques = document.getElementById('ques').value;
-    var option1 = document.getElementById('option1').value;
-    var option2 = document.getElementById('option2').value;
-    var option3 = document.getElementById('option3').value;
-    var option4 = document.getElementById('option4').value;
-    var correct = document.getElementById('correct').value;
-    var token = "<?php echo password_hash("questiontoken", PASSWORD_DEFAULT);?>"
-    if (test !== "" && ques !== "" && option1 !== "" && option2 !== "" && option3 !== "" && option4 !== "" && correct!=="") {
+    function addquestion() {
+        var excelform = document.getElementById('excelform');
+        var data = new FormData(excelform);
+        var token = "<?php echo password_hash("questiontoken", PASSWORD_DEFAULT); ?>"
+            $.ajax({
+                type: 'POST',
+                url: "ajax/addquestion.php",
+                    contentType:false,
+                    processData:false,
+                    data: data,
+                success: function(data) {
+                    alert(data);
+                    if (data == 0) {
+                        alert('questions added successfully');
+                        window.location.reload();
+                    }
+                }
+            });
+
+    }
+
+    gettest();
+
+    function gettest() {
+        var classId = <?php echo $_SESSION['class']; ?>;
+        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>"
+
         $.ajax({
             type: 'POST',
-            url: "ajax/addquestion.php",
+            url: "ajax/gettest1.php",
             data: {
-                test: test,
-                ques:ques,
-                option1:option1,
-                option2:option2,
-                option3:option3,
-                option4:option4,
-                correct:correct,
+                cid: classId,
                 token: token
             },
             success: function(data) {
-                // alert(data);
-                if (data == 0) {
-                    alert('question added successfully');
-                    window.location = "addquestion.php";
-                } else {
-                    alert(data);
-                }
+                $('#test').html(data);
+                // $('#list2').html(data);
             }
         });
-    } else {
-        alert('please fill all details');
     }
-}
 
-gettest();
-    function gettest() {
-        var classId = <?php echo $_SESSION['class']; ?>;
-        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>"
-
-        $.ajax(
-            {
-                type: 'POST',
-                url: "ajax/gettest1.php",
-                data: { cid : classId,token: token },
-                success: function (data) {
-                    $('#test').html(data);
-                    // $('#list2').html(data);
-                }
+    function showtable() {
+        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>";
+        $.ajax({
+            type: 'POST',
+            url: "ajax/gettest.php",
+            data: {
+                token: token
+            },
+            success: function(data) {
+                $('#listclass').html(data);
             }
-        );
+        });
     }
-
-function showtable() {
-    var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/gettest.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            $('#listclass').html(data);
-        }
-    });
-}
-
 </script>
 <script type=text/javascript>
-$('form').submit(function(e) {
-    e.preventDefault();
-});
+    $('form').submit(function(e) {
+        e.preventDefault();
+    });
 </script>
 
 </html>
