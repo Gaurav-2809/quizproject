@@ -5,12 +5,17 @@ if(isset($_POST['token']) && password_verify("testtoken",$_POST['token']))
 {
     $test=test_input($_POST['test']);
     $class=test_input($_POST['class1']);
+    $date=test_input($_POST['date1']);
+    $hour=test_input($_POST['hour']);
+    $question=test_input($_POST['question']);
+    $mark=test_input($_POST['marks']);
+    $each=test_input($_POST['each']);
 
     if($test!="")
     {
 
-        $query=$db->prepare("INSERT INTO addtest(test,class) VALUES (?,?)");
-        $data=array($test,$class);
+        $query=$db->prepare("INSERT INTO addtest(test,class,tdate,thour,tques,tmarks,teach) VALUES (?,?,?,?,?,?,?)");
+        $data=array($test,$class,$date,$hour,$question,$mark,$each);
         $execute=$query->execute($data);
         if($execute)
         {

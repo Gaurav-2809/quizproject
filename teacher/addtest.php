@@ -1,5 +1,8 @@
 <?php
      session_start();
+     if(!isset($_SESSION['id'])){
+        header("location: logout.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,30 +123,38 @@
                             <label for="test">TEST NAME:</label><br>
                             <input type="text" placeholder="Enter Test Name" class="form-control" name="test"
                                 id="test"><br>
-                            <!-- <div class="form-group">
-                                <label for="uni">CHOOSE UNIVERSITY</label><br> -->
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <!-- <select name="university1" id="university1" class="form-control" onchange="getclass();">
-                                    <option value="0">SELECT UNIVERSITY</option>
-                                </select> -->
-                                <!-- <div class="contain-input">
-                                    <div class="list2" id="list2" style="width: 100%; float: left;"></div>
-                                </div> -->
-                            <!-- </div> -->
+                           
                             <div class="form-group">
                                 <label for="tclass">CHOOSE CLASS</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-
                                 <select name="classs" id="classs" class="form-control">
                                     <option value="0">SELECT CLASS</option>
                                 </select>
-                                <!-- <div class="contain-input">
-                                    <div class="list1" id="list1" style="width: 100%; float: left;"></div>
-                                </div> -->
                             </div>
-                            
+                            <div class="form-group">
+                                <label for="tdate">CHOOSE DATE</label><br>
+                                <input type="date" placeholder="Enter Test Date" class="form-control" name="date"
+                                id="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="thour">ENTER TOTAL TIME</label><br>
+                                <input type="number" placeholder="Enter Total Hour" class="form-control" name="hour"
+                                id="hour" min="1" max="3">
+                            </div>
+                            <div class="form-group">
+                                <label for="tques">ENTER TOTAL QUESTION</label><br>
+                                <input type="number" placeholder="Enter Total Question" class="form-control" name="question"
+                                id="question" min="1" max="30">
+                            </div>
+                            <div class="form-group">
+                                <label for="tmarks">ENTER TOTAL MARKS</label><br>
+                                <input type="number" placeholder="Enter Total Marks" class="form-control" name="marks"
+                                id="marks">
+                            </div>
+                            <div class="form-group">
+                                <label for="teach">EACH QUESTION MARKS</label><br>
+                                <input type="number" placeholder="Enter Each Question Marks" class="form-control" name="each"
+                                id="each">
+                            </div>
                             <div class="button1">
                                 <button class="btn1" onclick="addtest();">SUBMIT</button>
                             </div>
@@ -181,6 +192,11 @@
 function addtest() {
     var test = document.getElementById('test').value;
     var class1 = document.getElementById('classs').value;
+    var date1 = document.getElementById('date').value;
+    var hour = document.getElementById('hour').value;
+    var question = document.getElementById('question').value;
+    var marks = document.getElementById('marks').value;
+    var each = document.getElementById('each').value;
     var token = "<?php echo password_hash("testtoken", PASSWORD_DEFAULT);?>"
     if (test !== "" && class1 != "" ) {
         $.ajax({
@@ -189,6 +205,11 @@ function addtest() {
             data: {
                 test: test,
                 class1: class1,
+                date1:date1,
+                hour:hour,
+                question:question,
+                marks:marks,
+                each:each,
                 token: token
             },
             success: function(data) {
