@@ -197,6 +197,9 @@ if (!isset($_SESSION['fname'])) {
         if (answer[0] == questions[0].answer) {
             console.log('10');
         }
+        else{
+            console.log('false');
+        }
         createDivForAnswer(questions);
     }
 
