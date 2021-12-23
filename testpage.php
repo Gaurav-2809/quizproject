@@ -36,6 +36,9 @@ if (!isset($_SESSION['fname'])) {
                         </div>
                     </li>
                     <li>
+                        <button class="btn5" onclick="result();">result</button>
+                    </li>
+                    <li>
                         <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
@@ -149,22 +152,22 @@ if (!isset($_SESSION['fname'])) {
         if (questionNumber == questions.length - 1) {
             $('#next').prop('hidden', true);
             submit.style.display = 'inline';
-        
+
         }
         createDivForQuestion(questions);
     }
 
     function Submit() {
-        var submit = document.getElementById('submit');
         var selectanswer = document.getElementsByName('options');
         for (let i = 0; i < selectanswer.length; i++) {
             if (selectanswer[i].checked == true) {
                 answer[questionNumber] = selectanswer[i].value;
+
                 break;
             }
         }
         console.log(answer);
-        
+
     }
 
     // function previousQuestion(number) {
@@ -185,8 +188,20 @@ if (!isset($_SESSION['fname'])) {
             success: function(data) {
                 data = JSON.parse(data);
                 createDivForQuestion(data);
+                createDivForAnswer(data);
             }
         });
+    }
+
+    function result() {
+        if (answer[0] == questions[0].answer) {
+            console.log('10');
+        }
+        createDivForAnswer(questions);
+    }
+
+    function createDivForAnswer(data) {
+        questions = data;
     }
 
     function createDivForQuestion(data) {
