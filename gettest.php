@@ -10,7 +10,7 @@ if(isset($_POST['token']) && password_verify("gettest",$_POST['token']))
 
         $execute=$query->execute($data);
 ?>
-<select name="test" id="test" class="form-control" onchange="getques();">
+<select name="test" id="test" class="form-control" >
 <option value="0">SELECT TEST NAME</option>
     <?php
         while($datarow=$query->fetch())
@@ -19,6 +19,7 @@ if(isset($_POST['token']) && password_verify("gettest",$_POST['token']))
     <option value="<?php echo $datarow['testid'];?>"><?php echo $datarow['test']?></option>
     <?php } ?>
 </select>
+
 <?php
 
     }

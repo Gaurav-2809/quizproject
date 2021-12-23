@@ -93,12 +93,9 @@
     margin-top: 3rem;
     display: inline-block;
 }
-/* .hidden{
-	display: none;
+.btn{
+    text-align: center;
 }
-.show{
-	display: block;
-} */
 .form1{
     background-color: rgb(177, 177, 177);
     padding: 1.5rem;
@@ -139,3 +136,7 @@
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
 }
+#submit{
+    display: none;
+}
+

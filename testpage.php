@@ -36,9 +36,6 @@ if (!isset($_SESSION['fname'])) {
                         </div>
                     </li>
                     <li>
-                        <button class="btn5"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
-                    </li>
-                    <li>
                         <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
@@ -104,17 +101,12 @@ if (!isset($_SESSION['fname'])) {
             </div>
             <div class="col-sm-12">
                 <div class="col-sm-9" style="padding-left: 5rem;">
-                    <form>
-                        <div class="form-group">
-                            <label for="uni">CHOOSE TEST</label><br>
-                            <select name="list4" id="list4" class="form-control">
-                                <option value="0">SELECT TEST NAME</option>
-                            </select>
-                            <div class="btn">
-                                <button class="btn btn-success" onclick="takeTest();">SUBMIT</button>
-                            </div>
-                        </div>
+                    <form id=questionprint>
+                        <div class="questionSet"></div>
                     </form>
+                    <!-- <button onclick="previousQuestion(questions)">Previous</button> -->
+                    <button id="next" onclick="nextQuestion();">Next</button>
+                    <button id="submit" onclick="Submit();">Submit</button>
                 </div>
                 <div class="col-sm-3">
                     <div class="box">
@@ -137,38 +129,81 @@ if (!isset($_SESSION['fname'])) {
     </div>
 </body>
 <script type=text/javascript>
-    function takeTest() {
-        var test = document.getElementById('list4').value;
-        $.ajax({
-            type: 'POST',
-            url: "activeTest.php",
-            data: {
-                activeTest: test
-            },
-            success: function(data) {
-                alert("Starting Test " + data);
-                window.location = "testPage.php";
-                // alert(data);
-            }
-        });
-    }
-    gettest();
+    getQuestion();
 
-    function gettest() {
-        var classId = <?php echo $_SESSION['class']; ?>;
-        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>";
+    let questionNumber = 0;
+    let questions = {};
+    let answer = {};
+    var submit = document.getElementById('submit');
+    // submit.style.display = 'none';
+
+    function nextQuestion() {
+        var selectanswer = document.getElementsByName('options');
+        for (let i = 0; i < selectanswer.length; i++) {
+            if (selectanswer[i].checked == true) {
+                answer[questionNumber] = selectanswer[i].value;
+                break;
+            }
+        }
+        questionNumber++;
+        if (questionNumber == questions.length - 1) {
+            $('#next').prop('hidden', true);
+            submit.style.display = 'inline';
+        
+        }
+        createDivForQuestion(questions);
+    }
+
+    function Submit() {
+        var submit = document.getElementById('submit');
+        var selectanswer = document.getElementsByName('options');
+        for (let i = 0; i < selectanswer.length; i++) {
+            if (selectanswer[i].checked == true) {
+                answer[questionNumber] = selectanswer[i].value;
+                break;
+            }
+        }
+        console.log(answer);
+        
+    }
+
+    // function previousQuestion(number) {
+    //     questionNumber--;
+    //     createDivForQuestion(questions);
+    // }
+
+    function getQuestion() {
+
+        var token = "<?php echo password_hash("getQuestions", PASSWORD_DEFAULT); ?>";
+        var activeTest = "<?php echo $_SESSION['activeTest'] ?>";
         $.ajax({
             type: 'POST',
-            url: "gettest.php",
+            url: "getQuestions.php",
             data: {
-                cid: classId,
                 token: token
             },
             success: function(data) {
-                // alert(data)
-                $('#list4').html(data);
+                data = JSON.parse(data);
+                createDivForQuestion(data);
             }
         });
+    }
+
+    function createDivForQuestion(data) {
+        questions = data;
+        $(".questionSet").html(`<div class="question">
+            ${questions[questionNumber].question}
+                    </div>
+            <div class="answers">
+                <input type="radio" id="option1" name="options" value="A">
+                <label for="option1">${data[questionNumber].option1}</label><br>
+                <input type="radio" id="option2" name="options" value="B">
+                <label for="css">${data[questionNumber].option2}</label><br>
+                <input type="radio" id="option3" name="options" value="C">
+                <label for="javascript">${data[questionNumber].option3}</label> <br>
+                <input type="radio" id="option4" name="options" value="D">
+                <label for="javascript">${data[questionNumber].option4}</label>  
+            </div>`);
     }
 </script>
 <script type=text/javascript>
