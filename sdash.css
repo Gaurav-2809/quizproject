@@ -19,9 +19,7 @@
 .navbar ul li #dash1{
     background-color: black;
 }
-.navbar ul li:hover{
-    background-color: white;
-}
+
 .icon{
     font-size: 6rem;
     text-align: center;

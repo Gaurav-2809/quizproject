@@ -35,11 +35,11 @@ if (!isset($_SESSION['fname'])) {
                             DASHBOARD
                         </div>
                     </li>
+                    <!-- <li>
+                        <button type="button" class="btn btn-light"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
+                    </li> -->
                     <li>
-                        <button class="btn5"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
-                    </li>
-                    <li>
-                        <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
+                        <button type="button" class="btn btn-light"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
             </div>

@@ -36,10 +36,13 @@ if (!isset($_SESSION['fname'])) {
                         </div>
                     </li>
                     <li>
-                        <button class="btn5"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
+                       <button type="button" class="btn btn-light"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a> </button>       
                     </li>
                     <li>
-                        <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
+                       <button type="button" class="btn btn-light"><a href="result.php" id="btn5">SHOW RESULT</a></button> 
+                    </li>
+                    <li>
+                       <button type="button" class="btn btn-light"><a href="logout.php" id="btn5">LOGOUT</a></button> 
                     </li>
                 </ul>
             </div>
@@ -109,7 +112,7 @@ if (!isset($_SESSION['fname'])) {
                 </div>
                 <div class="col-sm-3">
                     <div class="box">
-                    <div class="icon2">
+                        <div class="icon2">
                             <i class="fas fa-chalkboard-teacher"></i>
                         </div>
                         <div class="wel">
