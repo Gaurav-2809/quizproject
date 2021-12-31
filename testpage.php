@@ -135,7 +135,7 @@ if (!isset($_SESSION['fname'])) {
 
     let questionNumber = 0;
     let questions = {};
-    let answer = {};
+    let answer = [];
     var submit = document.getElementById('submit');
     // submit.style.display = 'none';
 
@@ -167,7 +167,7 @@ if (!isset($_SESSION['fname'])) {
             }
         }
         console.log(answer);
-        for (let i = 0; i < questions.length; i++) {
+        for (let i = 0; i < answer.length; i++) {
             if (answer[i] == questions[i].answer) {
                 sum = sum + 10;
             } else {
@@ -184,7 +184,7 @@ if (!isset($_SESSION['fname'])) {
                 sum: sum
             },
             success: function(data) {
-                alert(data);
+                // alert(data);
             }
         });
         let text = "Are you sure want to submit test?";

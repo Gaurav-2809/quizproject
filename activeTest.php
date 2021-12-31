@@ -2,7 +2,7 @@
 include('connection1.php');
 session_start();
 $today = date("Y-m-d");
-$examdate = date("2021-12-24");
+$examdate = date("2021-12-31");
 if ($today == $examdate) {
   $testId = $_POST['activeTest'];
   $_SESSION['activeTest'] = $testId;

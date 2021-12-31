@@ -138,7 +138,7 @@ if (!isset($_SESSION['fname'])) {
             token: token
         },
         success: function(data) {
-            alert(data);
+            // alert(data);
             $('#getresult').html(data);
         }
     });
