@@ -137,4 +137,15 @@
 #submit{
     display: none;
 }
-
+.questionSet{
+    background-color: rgb(194, 193, 193);
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+@media (max-width: 720px){
+    .navbar{
+        height: 40rem;
+    }
+}

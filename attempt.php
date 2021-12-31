@@ -46,7 +46,7 @@ if (!isset($_SESSION['fname'])) {
         </div>
         <div class="col-sm-9" style="padding: 0%;">
             <div class="teacher">
-                TEACHER DASHBOARD
+                STUDENT DASHBOARD
             </div>
             <div class="col-sm-12" style="margin-top: 1rem;">
                 <div class="col-sm-3">
@@ -139,6 +139,7 @@ if (!isset($_SESSION['fname'])) {
 <script type=text/javascript>
     function takeTest() {
         var test = document.getElementById('list4').value;
+        if (test != "") {
         $.ajax({
             type: 'POST',
             url: "activeTest.php",
@@ -146,11 +147,20 @@ if (!isset($_SESSION['fname'])) {
                 activeTest: test
             },
             success: function(data) {
-                alert("Starting Test " + data);
-                window.location = "testPage.php";
                 // alert(data);
+                if (data == 0) {
+                    alert("Starting Test");
+                    window.location = "testPage.php";
+                } else {
+                    alert("No Exam Today");
+                    window.location.reload();
+                }
             }
         });
+        }
+        else{
+            alert("Please Choose Subject");
+        }
     }
     gettest();
 

@@ -44,7 +44,7 @@ if (!isset($_SESSION['fname'])) {
         </div>
         <div class="col-sm-9" style="padding: 0%;">
             <div class="teacher">
-                TEACHER DASHBOARD
+                STUDENT DASHBOARD
             </div>
             <div class="col-sm-12" style="margin-top: 1rem;">
                 <div class="col-sm-3">
@@ -101,9 +101,10 @@ if (!isset($_SESSION['fname'])) {
                 </div>
             </div>
             <div class="col-sm-12">
-                <div class="col-sm-9" style="padding-left: 5rem;">
-                    <form id=questionprint>
-                        <div class="questionSet"></div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-7">
+                    <form id=questionprint style="margin-right: 5rem;">
+                        <div class="questionSet "></div>
                     </form>
                     <!-- <button onclick="previousQuestion(questions)">Previous</button> -->
                     <button id="next" onclick="nextQuestion();">Next</button>
@@ -156,7 +157,7 @@ if (!isset($_SESSION['fname'])) {
     }
 
     function Submit() {
-        let sum=0;
+        let sum = 0;
         var selectanswer = document.getElementsByName('options');
         for (let i = 0; i < selectanswer.length; i++) {
             if (selectanswer[i].checked == true) {
@@ -174,12 +175,13 @@ if (!isset($_SESSION['fname'])) {
             }
         }
         console.log(sum);
-        var token="<?php echo password_hash("results", PASSWORD_DEFAULT); ?>";
+        var token = "<?php echo password_hash("results", PASSWORD_DEFAULT); ?>";
         $.ajax({
             type: 'POST',
             url: "saveresult.php",
             data: {
-                token: token,sum:sum
+                token: token,
+                sum: sum
             },
             success: function(data) {
                 alert(data);
@@ -189,7 +191,7 @@ if (!isset($_SESSION['fname'])) {
         if (confirm(text) == true) {
             window.location = "studentdash.php";
         }
-        
+
     }
 
     // function previousQuestion(number) {
