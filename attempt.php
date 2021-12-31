@@ -139,7 +139,7 @@ if (!isset($_SESSION['fname'])) {
 <script type=text/javascript>
     function takeTest() {
         var test = document.getElementById('list4').value;
-        if (test != "") {
+        if (test !== "0") {
         $.ajax({
             type: 'POST',
             url: "activeTest.php",
