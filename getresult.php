@@ -2,11 +2,11 @@
 include('connection1.php');
 session_start();
 if (isset($_POST['token']) && password_verify("getresult", $_POST['token'])) {
-
+    $stdid=$_POST['stdid'];
     $query = $db->prepare('SELECT * FROM result JOIN addstudent ON result.studentid=addstudent.stdid
-         JOIN addtest ON result.testid=addtest.testid;');
+         JOIN addtest ON result.testid=addtest.testid where studentid=?;');
 
-    $data = array();
+    $data = array($stdid);
 
     $execute = $query->execute($data);
 ?>

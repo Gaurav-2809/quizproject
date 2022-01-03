@@ -130,11 +130,13 @@ if (!isset($_SESSION['fname'])) {
 <script type=text/javascript>
  showresult();
  function showresult() {
+    var stdid=<?php echo $_SESSION['stdid']; ?>;
     var token = "<?php echo password_hash("getresult", PASSWORD_DEFAULT);?>";
     $.ajax({
         type: 'POST',
         url: "getresult.php",
         data: {
+            stdid:stdid,
             token: token
         },
         success: function(data) {
