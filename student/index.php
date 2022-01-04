@@ -8,9 +8,9 @@
     <title>Student login</title>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="normalize.min.css">
-    <link rel="stylesheet" href="student.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/student.css">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
                             <h1>SIGN IN</h1>
                         </div>
                         <div class="image">
-                            <img src="copy.jpg">
+                            <img src="css/copy.jpg">
                         </div>
                         <div class="col-sm-12">
                             <div class="col-sm-6"></div>
@@ -60,7 +60,7 @@
          $.ajax(
                    {
                        type: 'POST',
-                       url:"login.php",
+                       url:"ajax/login.php",
                        data:{email:email,password:password,token:token},
                        success:function(data)
                        {

@@ -2,8 +2,13 @@
 include('connection1.php');
 session_start();
 $today = date("Y-m-d");
-$examdate = date("2022-01-03");
+// echo "hello";
+$examdate = date("2022-01-04");
+// echo $examdate;
+// echo $today;
+// echo "hello";
 if ($today == $examdate) {
+  // echo "hello";
   $testId = $_POST['activeTest'];
   $_SESSION['activeTest'] = $testId;
   echo 0;

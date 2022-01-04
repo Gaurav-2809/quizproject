@@ -17,9 +17,9 @@ if (!isset($_SESSION['fname'])) {
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="normalize.min.css">
-    <link rel="stylesheet" href="sdash.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/sdash.css">
 </head>
 
 <body>
@@ -35,21 +35,18 @@ if (!isset($_SESSION['fname'])) {
                             DASHBOARD
                         </div>
                     </li>
+                    <!-- <li>
+                        <button type="button" class="btn btn-light"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
+                    </li> -->
                     <li>
-                       <button type="button" class="btn btn-light"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a> </button>       
-                    </li>
-                    <li>
-                       <button type="button" class="btn btn-light"><a href="result.php" id="btn5">SHOW RESULT</a></button> 
-                    </li>
-                    <li>
-                       <button type="button" class="btn btn-light"><a href="logout.php" id="btn5">LOGOUT</a></button> 
+                        <button type="button" class="btn btn-light"><a href="ajax/logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="col-sm-9" style="padding: 0%;">
             <div class="teacher">
-                STUDENT DASHBOARD
+            STUDENT DASHBOARD
             </div>
             <div class="col-sm-12" style="margin-top: 1rem;">
                 <div class="col-sm-3">
@@ -106,9 +103,9 @@ if (!isset($_SESSION['fname'])) {
                 </div>
             </div>
             <div class="col-sm-12">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
-
+                <div class="col-sm-9" style="padding-left: 5rem;">
+                    <!-- <button onclick="showresult();">Check Result</button> -->
+                    <div id="getresult"></div>
                 </div>
                 <div class="col-sm-3">
                     <div class="box">
@@ -130,7 +127,25 @@ if (!isset($_SESSION['fname'])) {
         </div>
     </div>
 </body>
-
+<script type=text/javascript>
+ showresult();
+ function showresult() {
+    var stdid=<?php echo $_SESSION['stdid']; ?>;
+    var token = "<?php echo password_hash("getresult", PASSWORD_DEFAULT);?>";
+    $.ajax({
+        type: 'POST',
+        url: "ajax/getresult.php",
+        data: {
+            stdid:stdid,
+            token: token
+        },
+        success: function(data) {
+            // alert(data);
+            $('#getresult').html(data);
+        }
+    });
+}
+</script>
 <script type=text/javascript>
     $('form').submit(function(e) {
         e.preventDefault();

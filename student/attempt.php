@@ -17,9 +17,9 @@ if (!isset($_SESSION['fname'])) {
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="normalize.min.css">
-    <link rel="stylesheet" href="sdash.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/sdash.css">
 </head>
 
 <body>
@@ -39,7 +39,7 @@ if (!isset($_SESSION['fname'])) {
                         <button type="button" class="btn btn-light"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
                     </li> -->
                     <li>
-                        <button type="button" class="btn btn-light"><a href="logout.php" id="btn5">LOGOUT</a></button>
+                        <button type="button" class="btn btn-light"><a href="ajax/logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
             </div>
@@ -142,7 +142,7 @@ if (!isset($_SESSION['fname'])) {
         if (test !== "0") {
         $.ajax({
             type: 'POST',
-            url: "activeTest.php",
+            url: "ajax/activeTest.php",
             data: {
                 activeTest: test
             },
@@ -169,7 +169,7 @@ if (!isset($_SESSION['fname'])) {
         var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>";
         $.ajax({
             type: 'POST',
-            url: "gettest.php",
+            url: "ajax/gettest.php",
             data: {
                 cid: classId,
                 token: token

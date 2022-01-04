@@ -12,9 +12,9 @@
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="normalize.min.css">
-    <link rel="stylesheet" href="mainpage.css">
+    <link rel="stylesheet" href="student/css/bootstrap.min.css">
+    <link rel="stylesheet" href="student/css/normalize.min.css">
+    <link rel="stylesheet" href="student/css/mainpage.css">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <div class="image">
-                    <img src="uni.png" class="img1">
+                    <img src="student/css/uni.png" class="img1">
                 </div>
             </div>
             <div class="col-sm-4"></div>
@@ -45,7 +45,7 @@
                         </p>
                     </div>
                     <div class="button">
-                        <button class="button1"><a href="index.php">LOGIN NOW</a></button>
+                        <button class="button1"><a href="student/index.php">LOGIN NOW</a></button>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                         </p>
                     </div>
                     <div class="button">
-                        <button class="button1" style="margin-top: 2rem;"><a href="https://www.cuchd.in/">VISIT NOW</a></button>
+                        <button class="button1" style="margin-top: 2rem;"><a href="#">VISIT NOW</a></button>
                     </div>
                 </div>
             </div>
