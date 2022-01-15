@@ -32,7 +32,7 @@ if(!isset($_SESSION['id'])){
                     </div>
                     <li style="background-color: white; color: black;">
                         <div class="dash">
-                            DASHBOARD
+                            TEACHER DASHBOARD
                         </div>
                     </li>
                     <li>
