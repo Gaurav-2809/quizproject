@@ -39,7 +39,7 @@ if (!isset($_SESSION['fname'])) {
                         <button type="button" class="btn btn-light"><a href="attempt.php" id="btn5">ATTEMPT QUIZ</a></button>
                     </li> -->
                     <li>
-                        <button type="button" class="btn btn-light"><a href="ajax/logout.php" id="btn5">LOGOUT</a></button>
+                        <button type="button" class="btn btn-light"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
                 </ul>
             </div>
