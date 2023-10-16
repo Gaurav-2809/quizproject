@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,20 +115,18 @@ session_start();
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-                    <form>
+                    <form id="form1">
                         <div class="form2 show" id="form2">
                             <label for="class">ADD CLASS:</label><br>
                             <input type="text" placeholder="Enter Class" class="form-control" name="class1" id="class1"><br>
                             <div class="form-group">
                                 <label for="uni">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-                                <div class="contain-input">
-                                    <div class="list3" id="list3" style="width: 100%; float: left;"></div>
-                                </div>
+                                <select name="university" id="university" class="form-control">
+                                    <option value="0">SELECT UNIVERSITY</option>
+                                </select>
                             </div>
                             <div class="button1">
-                                <button style="margin-top: 2rem;" class="btn1" onclick="addclass();">SUBMIT</button>
+                                <input style="margin-top: 2rem;" class="btn1" type="submit" value="SUBMIT">
                             </div>
                         </div>
                     </form>
@@ -136,86 +136,110 @@ session_start();
             </div>
             <div class="box-footer">
                 <div class="tabledesign">
-                    <div class="listclass" id="listclass"></div>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SR. NO.</td>
+                                <th>CLASS</td>
+                                <th>UNIVERSITY</td>
+                                <th>DELETE</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script type="text/javascript">
-    function addclass() {
-        var class1 = document.getElementById('class1').value;
-        var uid = document.getElementById('university').value;
-        var token = "<?php echo password_hash("classtoken", PASSWORD_DEFAULT); ?>"
-        if (class1 !== "") {
-            $.ajax({
-                type: 'POST',
-                url: "ajax/addclass.php",
-                data: {
-                    class1: class1,
-                    uid: uid,
-                    token: token
-                },
-                success: function(data) {
-                    if (data == 0) {
-                        alert('class added successfully');
-                        window.location = "dashboard.php";
-                    }
+    var tf = document.getElementById('form1');
+    tf.addEventListener("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addclass.php",
+            contentType: false,
+            processData: false,
+            data: new FormData(tf),
+            async: false,
+            success: function(data) {
+                if (data != 0) {
+                    alert(data);
+                    return;
                 }
-            });
-        } else {
-            alert('please fill all details');
-        }
-    }
+                alert('university added successfully');
+                window.location.reload();
+            }
+        });
+    });
     getuni();
 
     function getuni() {
-        var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT); ?>"
-
         $.ajax({
             type: 'POST',
-            url: "ajax/getuni.php",
+            url: "ajax/adduni.php",
             data: {
-                token: token
+                'showuni': 'showuni'
             },
             success: function(data) {
-                $('#list3').html(data);
-                // $('#list2').html(data);
+                console.log(data);
+                uni = JSON.parse(data);
+                console.log(uni);
+                uni.forEach(function(data) {
+                    console.log(data);
+                    var option = '<option value=' + data['id'] + '>' + data['name'] + '</option>';
+                    console.log(option);
+                    $('select[name=university]').append(option);
+                })
             }
         });
     }
-    function showclass() {
-    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getallclass.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            $('#listclass').html(data);
-        }
-    });
-}
 
-function deleted(i){
-    // alert(i)
-    var token='<?php echo password_hash("deletetoken", PASSWORD_DEFAULT);?>';
-    $.ajax({
-        type: 'POST',
-        url: "ajax/delclass.php",
-        data: {
-            token: token,
-            id:i
-        },
-        success: function(data) {
-            if (data == 0) {
-                alert('class deleted successfully');
-                window.location = "dashboard.php";
-                }
-        }
-    });
-}
+    function showclass() {
+        $('tbody').empty();
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addclass.php",
+            data: {
+                'showclass': 'showclass'
+            },
+            success: function(data) {
+                console.log(data);
+                classs = JSON.parse(data);
+                console.log(classs);
+                classs.forEach(function(data, i) {
+                    console.log(data);
+                    var tr = '<tr><td>' + (i + 1) + '</td><td>' + data['class'] + '</td><td>' + data['name'] + '</td><td><div class="contact-delete dlt" data-id=' + data['id'] + '><button class="btn btn-danger">Delete</button></div></td></tr>';
+                    $('tbody').append(tr);
+                })
+                $('.dlt').click(function() {
+                    var del = $(this).attr('data-id');
+                    console.log(del);
+                    if (confirm('Are you sure want to delete?')) {
+                        $.ajax({
+                            type: "POST",
+                            url: "ajax/addclass.php",
+                            data: {
+                                del: del
+                            },
+                            success: function(data) {
+                                if (data != 1) {
+                                    alert(data);
+                                    return;
+                                }
+                                alert('class deleted successfully');
+                                window.location.reload();
+                            }
+                        });
+                    }else{
+                        return false;
+                    }
+
+                })
+            }
+        });
+    }
 </script>
 <script type=text/javascript>
     $('form').submit(function(e) {

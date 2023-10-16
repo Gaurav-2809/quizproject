@@ -1,8 +1,11 @@
 <?php
 session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 if (!isset($_SESSION['fname'])) {
     header("location: index.php");
 }
+// print_r(base64_decode($_GET['id']));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -168,20 +171,20 @@ if (!isset($_SESSION['fname'])) {
         }
         console.log(answer);
         for (let i = 0; i < answer.length; i++) {
-            if (answer[i] == questions[i].answer) {
+            if (answer[i] == questions[i].correct) {
                 sum = sum + 10;
             } else {
                 sum = sum - 10;
             }
         }
         console.log(sum);
-        var token = "<?php echo password_hash("results", PASSWORD_DEFAULT); ?>";
+        var act = "<?php echo $_GET['id'] ?>";
         $.ajax({
             type: 'POST',
-            url: "ajax/saveresult.php",
+            url: "ajax/getresult.php",
             data: {
-                token: token,
-                sum: sum
+                sum: sum,
+                act: act
             },
             success: function(data) {
                 // alert(data);
@@ -194,23 +197,19 @@ if (!isset($_SESSION['fname'])) {
 
     }
 
-    // function previousQuestion(number) {
-    //     questionNumber--;
-    //     createDivForQuestion(questions);
-    // }
-
     function getQuestion() {
 
-        var token = "<?php echo password_hash("getQuestions", PASSWORD_DEFAULT); ?>";
-        var activeTest = "<?php echo $_SESSION['activeTest'] ?>";
+        var act = "<?php echo $_GET['id'] ?>";
         $.ajax({
             type: 'POST',
-            url: "ajax/getQuestions.php",
+            url: "ajax/gettest.php",
             data: {
-                token: token
+                act: act
             },
             success: function(data) {
+                console.log(data);
                 data = JSON.parse(data);
+                // console.log(dat);
                 createDivForQuestion(data);
                 createDivForAnswer(data);
             }
@@ -224,7 +223,7 @@ if (!isset($_SESSION['fname'])) {
     function createDivForQuestion(data) {
         questions = data;
         $(".questionSet").html(`<div class="question">
-            ${questions[questionNumber].question}
+            ${data[questionNumber].question}
                     </div>
             <div class="answers">
                 <input type="radio" id="option1" name="options" value="A">

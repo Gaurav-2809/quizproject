@@ -1,8 +1,10 @@
 <?php
-     session_start();
-     if(!isset($_SESSION['id'])){
-        header("location: logout.php");
-    }
+session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
+if(!isset($_SESSION['id'])){
+    header("location: logout.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,9 +47,9 @@
                     <li>
                         <a href="addquestion.php" id="btn4">ADD QUESTION</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
-                    </li>
+                    </li> -->
                     <div class="btn2">
                         <button class="btn4" onclick="showtable();">SHOW ALL TEST</button>
                     </div>
@@ -118,7 +120,7 @@
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-                    <form>
+                    <form id="form1">
                         <div class="form1 show" id="form1">
                             <label for="test">TEST NAME:</label><br>
                             <input type="text" placeholder="Enter Test Name" class="form-control" name="test"
@@ -156,7 +158,7 @@
                                 id="each">
                             </div>
                             <div class="button1">
-                                <button class="btn1" onclick="addtest();">SUBMIT</button>
+                                <input class="btn1" type="submit" value="SUBMIT">
                             </div>
                         </div>
                     </form>
@@ -180,7 +182,17 @@
             </div>
             <div class="box-footer">
                 <div class="tabledesign">
-                    <div class="listclass" id="listclass"></div>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SR. NO.</th>
+                            <th>TEST NAME</th>
+                            <th>CLASS</th>
+                            <th>UNIVERSITY</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
                 </div>
             </div>
         </div>
@@ -189,97 +201,92 @@
 </body>
 <script type=text/javascript>
 
-function addtest() {
-    var test = document.getElementById('test').value;
-    var class1 = document.getElementById('classs').value;
-    var date1 = document.getElementById('date').value;
-    var hour = document.getElementById('hour').value;
-    var question = document.getElementById('question').value;
-    var marks = document.getElementById('marks').value;
-    var each = document.getElementById('each').value;
-    var token = "<?php echo password_hash("testtoken", PASSWORD_DEFAULT);?>"
-    if (test !== "" && class1 != "" ) {
+    var tf = document.getElementById('form1');
+    tf.addEventListener("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addtest.php",
+            contentType: false,
+            processData: false,
+            data: new FormData(tf),
+            async: false,
+            success: function(data) {
+                if (data != 0) {
+                    alert(data);
+                    return;
+                }
+                alert('test added successfully');
+                window.location.reload();
+            }
+        });
+    });
+
+
+function showtable() {
         $.ajax({
             type: 'POST',
             url: "ajax/addtest.php",
             data: {
-                test: test,
-                class1: class1,
-                date1:date1,
-                hour:hour,
-                question:question,
-                marks:marks,
-                each:each,
-                token: token
+                'showtest': 'showtest'
             },
             success: function(data) {
-                // alert(data);
-                if (data == 0) {
-                    alert('test added successfully');
-                    window.location = "addtest.php";
-                } else {
-                    alert(data);
-                }
+                console.log(data);
+                uni = JSON.parse(data);
+                console.log(uni);
+                uni.forEach(function(data, i) {
+                    console.log(data);
+                    var tr = '<tr><td>' + (i + 1) + '</td><td>' + data['test'] + '</td><td>'+data['class']+'</td><td>'+data['uname']+'</td><td><div class="contact-delete dlt" data-id=' + data['id'] + '><button class="btn btn-danger">Delete</button></div></td></tr>';
+                    $('tbody').append(tr);
+                })
+                $('.dlt').click(function() {
+                    var del = $(this).attr('data-id');
+                    console.log(del);
+                    if (confirm('Are you sure want to delete?')) {
+                        $.ajax({
+                            type: "POST",
+                            url: "ajax/addtest.php",
+                            data: {
+                                del: del
+                            },
+                            success: function(data) {
+                                if (data != 1) {
+                                    alert(data);
+                                    return;
+                                }
+                                alert('test deleted successfully');
+                                window.location.reload();
+                            }
+                        });
+                    }else{
+                        return false;
+                    }
+
+                })
             }
         });
-    } else {
-        alert('please fill all details');
     }
-}
-
-
-function showtable() {
-    var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/gettest.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            $('#listclass').html(data);
-        }
-    });
-}
-
-
-
-// getuni();
-
-// function getuni() {
-//     var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
-
-//     $.ajax({
-//         type: 'POST',
-//         url: "ajax/cgetuni.php",
-//         data: {
-//             token: token
-//         },
-//         success: function(data) {
-//             // $('#list3').html(data);
-//             $('#university1').html(data);
-//         }
-//     });
-// }
 
 getclass();
 function getclass() {
-    // var uid = document.getElementById('university1').value;
-    var classId = <?php echo $_SESSION['class']; ?>;
-    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getclass.php",
-        data: {
-            cid: classId,
-            token: token
-        },
-        success: function(data) {
-            // alert(data)
-            $('#classs').html(data);
-        }
-    });
-}
+        var classId = <?php echo $_SESSION['classs']; ?>;
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addstudent.php",
+            data: {
+                // uid: uid,
+                cid: classId
+            },
+            success: function(data) {
+                console.log(data);
+                cla=JSON.parse(data);
+                cla.forEach(function(data){
+                    var option='<option value='+data['id']+'>'+data['class']+'</option>';
+                    $('#classs').append(option);
+                })
+            }
+        });
+    }
 </script>
 <script type=text/javascript>
 $('form').submit(function(e) {

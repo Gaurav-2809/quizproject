@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 if (!isset($_SESSION['fname'])) {
     header("location: index.php");
 }
@@ -46,7 +48,7 @@ if (!isset($_SESSION['fname'])) {
         </div>
         <div class="col-sm-9" style="padding: 0%;">
             <div class="teacher">
-            STUDENT DASHBOARD
+                STUDENT DASHBOARD
             </div>
             <div class="col-sm-12" style="margin-top: 1rem;">
                 <div class="col-sm-3">
@@ -106,6 +108,17 @@ if (!isset($_SESSION['fname'])) {
                 <div class="col-sm-9" style="padding-left: 5rem;">
                     <!-- <button onclick="showresult();">Check Result</button> -->
                     <div id="getresult"></div>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SR. NO.</th>
+                                <th>TEST NAME</th>
+                                <th>STUDENT NAME</th>
+                                <th>MARKS</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
                 <div class="col-sm-3">
                     <div class="box">
@@ -128,23 +141,27 @@ if (!isset($_SESSION['fname'])) {
     </div>
 </body>
 <script type=text/javascript>
- showresult();
- function showresult() {
-    var stdid=<?php echo $_SESSION['stdid']; ?>;
-    var token = "<?php echo password_hash("getresult", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getresult.php",
-        data: {
-            stdid:stdid,
-            token: token
-        },
-        success: function(data) {
-            // alert(data);
-            $('#getresult').html(data);
-        }
-    });
-}
+    showresult();
+
+    function showresult() {
+        var stdid = <?php echo $_SESSION['stdid']; ?>;
+        $.ajax({
+            type: 'POST',
+            url: "ajax/getresult.php",
+            data: {
+                stdid: stdid,
+            },
+            success: function(data) {
+                console.log(data);
+                res=JSON.parse(data);
+                console.log(res);
+                res.forEach(function(data,i){
+                    var tr='<tr><td>'+(i+1)+'</td><td>'+data['test']+'</td><td>'+data['name']+'</td><td>'+data['marks']+'</td></tr>';
+                    $('tbody').append(tr);
+                })
+            }
+        });
+    }
 </script>
 <script type=text/javascript>
     $('form').submit(function(e) {

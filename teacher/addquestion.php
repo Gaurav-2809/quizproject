@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 if(!isset($_SESSION['id'])){
     header("location: logout.php");
 }
@@ -44,12 +46,12 @@ if(!isset($_SESSION['id'])){
                     <li>
                         <a href="addquestion.php" id="btn4">ADD QUESTION</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
-                    </li>
-                    <div class="btn2">
+                    </li> -->
+                    <!-- <div class="btn2">
                         <button class="btn4" onclick="showtable();">SHOW ALL TEST</button>
-                    </div>
+                    </div> -->
                     <li>
                         <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
@@ -136,7 +138,7 @@ if(!isset($_SESSION['id'])){
                                 <input type="file" name="excel" id="excel">
                             </div>
                             <div class="button1">
-                                <button class="btn1" onclick="addquestion();">SUBMIT</button>
+                                <input type="submit" value="SUBMIT" class="btn1" >
                             </div>
                         </div>
                     </form>
@@ -168,57 +170,43 @@ if(!isset($_SESSION['id'])){
 
 </body>
 <script type=text/javascript>
-    function addquestion() {
-        var excelform = document.getElementById('excelform');
-        var data = new FormData(excelform);
-        var token = "<?php echo password_hash("questiontoken", PASSWORD_DEFAULT); ?>"
-            $.ajax({
-                type: 'POST',
-                url: "ajax/addquestion.php",
-                    contentType:false,
-                    processData:false,
-                    data: data,
-                success: function(data) {
+    var tf = document.getElementById('excelform');
+    tf.addEventListener("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addquestion.php",
+            contentType: false,
+            processData: false,
+            data: new FormData(tf),
+            async: false,
+            success: function(data) {
+                if (data != 0) {
                     alert(data);
-                    if (data == 0) {
-                        alert('questions added successfully');
-                        window.location.reload();
-                    }
+                    return;
                 }
-            });
-
-    }
+                alert('question added successfully');
+                window.location.reload();
+            }
+        });
+    });
 
     gettest();
 
     function gettest() {
-        var classId = <?php echo $_SESSION['class']; ?>;
-        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>"
-
         $.ajax({
             type: 'POST',
-            url: "ajax/gettest1.php",
+            url: "ajax/addquestion.php",
             data: {
-                cid: classId,
-                token: token
+                'cid':'cid'
             },
             success: function(data) {
-                $('#test').html(data);
-                // $('#list2').html(data);
-            }
-        });
-    }
-
-    function showtable() {
-        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>";
-        $.ajax({
-            type: 'POST',
-            url: "ajax/gettest.php",
-            data: {
-                token: token
-            },
-            success: function(data) {
-                $('#listclass').html(data);
+                console.log(data);
+                tes=JSON.parse(data);
+                tes.forEach(function(data){
+                    var option='<option value='+data['id']+'>'+data['test']+'</option>';
+                    $('#test').append(option);
+                })
             }
         });
     }

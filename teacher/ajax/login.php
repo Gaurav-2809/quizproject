@@ -1,5 +1,5 @@
 <?php
-    include('connection1.php');
+    include('connection.php');
     session_start();
     if(isset($_POST['token']) && password_verify("logintoken",$_POST['token']))
     {
@@ -17,7 +17,7 @@
                 {
                     $_SESSION['id']=$datarow['tid'];
                     $_SESSION['name']=$datarow['tname'];
-                    $_SESSION['class']=$datarow['class'];
+                    $_SESSION['classs']=$datarow['classs'];
                     echo 0;
                 }
                 else

@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 if (!isset($_SESSION['fname'])) {
     header("location: index.php");
 }
@@ -104,17 +106,16 @@ if (!isset($_SESSION['fname'])) {
             </div>
             <div class="col-sm-12">
                 <div class="col-sm-9" style="padding-left: 5rem;">
-                    <form>
-                        <div class="form-group">
-                            <label for="uni">CHOOSE TEST</label><br>
-                            <select name="list4" id="list4" class="form-control">
-                                <option value="0">SELECT TEST NAME</option>
-                            </select>
-                            <div class="btn">
-                                <button class="btn btn-success" onclick="takeTest();">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SR. NO.</th>
+                                <th>TEST NAME</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
                 <div class="col-sm-3">
                     <div class="box">
@@ -137,46 +138,23 @@ if (!isset($_SESSION['fname'])) {
     </div>
 </body>
 <script type=text/javascript>
-    function takeTest() {
-        var test = document.getElementById('list4').value;
-        if (test !== "0") {
-        $.ajax({
-            type: 'POST',
-            url: "ajax/activeTest.php",
-            data: {
-                activeTest: test
-            },
-            success: function(data) {
-                // alert(data);
-                if (data == 0) {
-                    alert("Starting Test");
-                    window.location = "testPage.php";
-                } else {
-                    alert("No Exam Today");
-                    window.location.reload();
-                }
-            }
-        });
-        }
-        else{
-            alert("Please Choose Subject");
-        }
-    }
     gettest();
 
     function gettest() {
         var classId = <?php echo $_SESSION['class']; ?>;
-        var token = "<?php echo password_hash("gettest", PASSWORD_DEFAULT); ?>";
         $.ajax({
             type: 'POST',
             url: "ajax/gettest.php",
             data: {
-                cid: classId,
-                token: token
+                cid: classId
             },
             success: function(data) {
-                // alert(data)
-                $('#list4').html(data);
+                console.log(data);
+                op = JSON.parse(data);
+                op.forEach(function(data,i) {
+                    var tr = '<tr><td>'+(i+1)+'</td><td>'+data['test']+'</td><td><button class="btn btn-success"><a style="text-decoration: none; color:white;" href="testpage.php?id='+data['id']+'&name='+data['test']+'">SUBMIT</a></button></td></tr>';
+                    $('tbody').append(tr);
+                })
             }
         });
     }

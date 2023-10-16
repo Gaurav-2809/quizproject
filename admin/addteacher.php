@@ -1,5 +1,7 @@
 <?php
-     session_start();
+session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admin dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -115,41 +116,29 @@
             <div class="col-sm-12">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-
-                    <form>
+                    <form id="form1"> 
                         <div class="form3 show" id="form3">
                             <label for="tname">ADD TEACHER:</label><br>
-                            <input type="text" placeholder="Enter Teacher" class="form-control" name="tname"
-                                id="tname"><br>
+                            <input type="text" placeholder="Enter Teacher" class="form-control" name="tname" id="tname"><br>
                             <label for="email">ADD EMAIL:</label><br>
-                            <input type="text" placeholder="Enter Email" class="form-control" name="email"
-                                id="email"><br>
+                            <input type="email" placeholder="Enter Email" class="form-control" name="emaill" id="emaill"><br>
                             <div class="form-group">
                                 <label for="uni">CHOOSE UNIVERSITY</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
+
                                 <select name="university1" id="university1" class="form-control" onchange="getclass();">
                                     <option value="0">SELECT UNIVERSITY</option>
                                 </select>
-                                <!-- <div class="contain-input">
-                                    <div class="list2" id="list2" style="width: 100%; float: left;"></div>
-                                </div> -->
+
                             </div>
                             <div class="form-group">
                                 <label for="tclass">CHOOSE CLASS</label><br>
-                                <!-- <input type="text" class="form-control" placeholder="Enter Password" name="class"
-                                id="class"><br> -->
-
                                 <select name="classs" id="classs" class="form-control">
                                     <option value="0">SELECT CLASS</option>
                                 </select>
-                                <!-- <div class="contain-input">
-                                    <div class="list1" id="list1" style="width: 100%; float: left;"></div>
-                                </div> -->
                             </div>
 
                             <div class="button1">
-                                <button class="btn1" onclick="addteacher();" style="margin-top: 2rem;">SUBMIT</button>
+                                <input class="btn1" value="SUBMIT" type="submit" style="margin-top: 2rem;">
                             </div>
                         </div>
                     </form>
@@ -158,113 +147,136 @@
             </div>
             <div class="box-footer">
                 <div class="tabledesign">
-                    <div class="listclass" id="listclass"></div>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SR. NO.</th>
+                                <th>NAME</th>
+                                <th>CLASS</th>
+                                <th>UNIVERSITY</th>
+                                <th>DELETE</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script type="text/javascript">
-function addteacher() {
-    var tname = document.getElementById('tname').value;
-    var email = document.getElementById('email').value;
-    var class1 = document.getElementById('classs').value;
-    var token = "<?php echo password_hash("teachertoken", PASSWORD_DEFAULT);?>"
-    if (tname !== "" && email !== "" && class1 != "") {
+    var tf = document.getElementById('form1');
+    tf.addEventListener("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addteacher.php",
+            contentType: false,
+            processData: false,
+            data: new FormData(tf),
+            async: false,
+            success: function(data) {
+                if (data != 0) {
+                    alert(data);
+                    return;
+                }
+                alert('teacher added successfully');
+                window.location.reload();
+            }
+        });
+    });
+    getuni();
+
+    function getuni() {
+        $.ajax({
+            type: 'POST',
+            url: "ajax/adduni.php",
+            data: {
+                'showuni': 'showuni'
+            },
+            success: function(data) {
+                console.log(data);
+                uni = JSON.parse(data);
+                console.log(uni);
+                uni.forEach(function(data) {
+                    console.log(data);
+                    var option = '<option value=' + data['id'] + '>' + data['name'] + '</option>';
+                    console.log(option);
+                    $('select[name=university1]').append(option);
+                })
+            }
+        });
+    }
+
+    function getclass() {
+        var uid = document.getElementById('university1').value;
         $.ajax({
             type: 'POST',
             url: "ajax/addteacher.php",
             data: {
-                tname: tname,
-                class1: class1,
-                email: email,
-                token: token
+                uid: uid,
             },
             success: function(data) {
-                if (data == 0) {
-                    alert('teacher added successfully');
-                    window.location = "dashboard.php";
-                }
+                console.log(data);
+                uni = JSON.parse(data);
+                console.log(uni);
+                $('select[name=classs]').empty();
+                uni.forEach(function(data) {
+                    console.log(data);
+                    var option = '<option value=' + data['id'] + '>' + data['class'] + '</option>';
+                    $('select[name=classs]').append(option);
+                })
             }
         });
-    } else {
-        alert('please fill all details');
     }
-}
-getuni();
 
-function getuni() {
-    var token = "<?php echo password_hash("getuni", PASSWORD_DEFAULT);?>"
-
-    $.ajax({
-        type: 'POST',
-        url: "ajax/cgetuni.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            // $('#list').html(data);
-            $('#university1').html(data);
-        }
-    });
-}
-
-function getclass() {
-    var uid = document.getElementById('university1').value;
-    var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getclass.php",
-        data: {
-            uid: uid,
-            token: token
-        },
-        success: function(data) {
-            $('#classs').html(data);
-        }
-    });
-}
-
-// getallteacher();
-function showtable() {
-    var token = "<?php echo password_hash("getteacher", PASSWORD_DEFAULT);?>";
-    $.ajax({
-        type: 'POST',
-        url: "ajax/getallteacher.php",
-        data: {
-            token: token
-        },
-        success: function(data) {
-            $('#listclass').html(data);
-        }
-    });
-}
-
-function deleted(i){
-    // alert(i)
-    var token='<?php echo password_hash("deletetoken", PASSWORD_DEFAULT);?>';
-    $.ajax({
-        type: 'POST',
-        url: "ajax/delteacher.php",
-        data: {
-            token: token,
-            id:i
-        },
-        success: function(data) {
-            if (data == 0) {
-                alert('teacher deleted successfully');
-                window.location = "dashboard.php";
-                }
-        }
-    });
-}
-
-
+    // getallteacher();
+    function showtable() {
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addteacher.php",
+            data: {
+                'teacher': 'teacher'
+            },
+            success: function(data) {
+                console.log(data);
+                tec_data=JSON.parse(data);
+                tec_data.forEach(function(data,i){
+                    console.log(data);
+                    var tr='<tr><td>'+(i+1)+'</td><td>'+data['tname']+'</td><td>'+data['class']+'</td><td>'+data['uname']+'</td><td><div class="contact-delete dlt" data-id=' + data['id'] + '><button  class="btn btn-danger" >Delete</button></div></td></tr>';
+                    $('tbody').append(tr);
+                })
+                $('.dlt').click(function() {
+                    var del = $(this).attr('data-id');
+                    console.log(del);
+                    if (confirm('Are you sure want to delete?')) {
+                        $.ajax({
+                            type: "POST",
+                            url: "ajax/addteacher.php",
+                            data: {
+                                del: del
+                            },
+                            success: function(data) {
+                                if (data != 1) {
+                                    alert(data);
+                                    return;
+                                }
+                                alert('university deleted successfully');
+                                window.location = "dashboard.php";
+                            }
+                        });
+                    }else{
+                        return false;
+                    }
+                })
+            }
+        });
+    }
 </script>
 <script type=text/javascript>
-$('form').submit(function(e) {
-    e.preventDefault();
-});
+    $('form').submit(function(e) {
+        e.preventDefault();
+    });
 </script>
 
 </html>

@@ -1,10 +1,15 @@
 <?php
+session_start();
+if(!isset($_COOKIE['0']) || !password_verify($_SESSION["domain_ajax_request_validate_code_cookies"],$_COOKIE['0'])){return;}
+include('function.php');
+include('connection.php');
 include("Classes/PHPExcel.php");
-include("connection1.php");
-
-$test=$_POST['test'];
-if(!empty($_FILES["excel"]))
-{
+if(isset($_POST['test'])){
+	$test=base64_decode($_POST['test']);
+	if(empty($_FILES["excel"]) || $test==""){
+		echo "Please fill all details";
+		return;
+	}
 	$file_array = explode(".", $_FILES["excel"]["name"]);
 	if($file_array[1] == "xls" || $file_array[1] == "xlsx")
 	{
@@ -26,13 +31,23 @@ if(!empty($_FILES["excel"]))
 				$query = $db->prepare('INSERT INTO addquestion(test,question,option1,option2,option3,option4,correct) Values (?,?,?,?,?,?,?)');
 				$data = array($test,$question,$option1,$option2,$option3,$option4,$correct);
 				$execute=$query->execute($data);
-				if($execute)
-				{
-					echo 0;
-				}
+				if(!$execute){echo "something went wrong"; return;}
+				
+				echo 0;
 			}
 		}
 	}
+}
+if(isset($_POST['cid'])){
+	$query=$db->prepare('SELECT * FROM addtest where class=?');
+    $data=array($_SESSION['classs']);
+    $execute=$query->execute($data);
+	$am=array();
+	while($datarow=$query->fetch()){
+		$arr=array('id'=>base64_encode($datarow['testid']),'test'=>$datarow['test']);
+		array_push($am,$arr);
+	}
+	echo json_encode($am);
 }
 
 ?>

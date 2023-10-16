@@ -1,5 +1,7 @@
 <?php
 session_start();
+$_SESSION["domain_ajax_request_validate_code_cookies"] = substr(bin2hex(random_bytes(16)), 0, 16);
+setcookie("0", password_hash($_SESSION["domain_ajax_request_validate_code_cookies"], PASSWORD_DEFAULT), time() + (86400 * 30), "/");
 if(!isset($_SESSION['id'])){
     header("location: logout.php");
 }
@@ -44,9 +46,9 @@ if(!isset($_SESSION['id'])){
                     <li>
                         <a href="addquestion.php" id="btn4">ADD QUESTION</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="showresult.php" id="btn3">SHOW RESULT</a>
-                    </li>
+                    </li> -->
                     <li>
                         <button class="btn5"><a href="logout.php" id="btn5">LOGOUT</a></button>
                     </li>
@@ -126,7 +128,7 @@ if(!isset($_SESSION['id'])){
                                     <input type="file" name="excel" id="excel">
                                 </div>
                                 <div class="button1">
-                                    <button class="btn1" onclick="addstudent();">SUBMIT</button>
+                                    <input class="btn1" type="submit" value="SUBMIT">
                                 </div>
                             </div>
                         </div>
@@ -153,43 +155,43 @@ if(!isset($_SESSION['id'])){
     </div>
 </body>
 <script type=text/javascript>
-    function addstudent() {
-        var excelform = document.getElementById('excelform');
-        var data = new FormData(excelform);
-        // var class1 = document.getElementById('classs').value;
-        var token = "<?php echo password_hash("studenttoken", PASSWORD_DEFAULT); ?>"
-            $.ajax({
-                type: 'POST',
-                url: "ajax/exceldata.php",
-                    contentType:false,
-                    processData:false,
-                    data: data,
-                success: function(data) {
-                    if (data == 0) {
-                        alert('student added successfully');
-                        window.location.reload();
-                    }
-                }
-            });
-
-    }
-
-    getclass();
-
-    function getclass() {
-        var classId = <?php echo $_SESSION['class']; ?>;
-        var token = "<?php echo password_hash("getclass", PASSWORD_DEFAULT); ?>";
+    var tf = document.getElementById('excelform');
+    tf.addEventListener("submit", function(e) {
+        e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: "ajax/getclass.php",
+            url: "ajax/addstudent.php",
+            contentType: false,
+            processData: false,
+            data: new FormData(tf),
+            async: false,
+            success: function(data) {
+                if (data != 0) {
+                    alert(data);
+                    return;
+                }
+                alert('student added successfully');
+                window.location.reload();
+            }
+        });
+    });
+
+    getclass();
+    function getclass() {
+        var classId = <?php echo $_SESSION['classs']; ?>;
+        $.ajax({
+            type: 'POST',
+            url: "ajax/addstudent.php",
             data: {
                 // uid: uid,
-                cid: classId,
-                token: token
+                cid: classId
             },
             success: function(data) {
-                // alert(data)
-                $('#classs').html(data);
+                cla=JSON.parse(data);
+                cla.forEach(function(data){
+                    var option='<option value='+data['id']+'>'+data['class']+'</option>';
+                    $('#classs').append(option);
+                })
             }
         });
     }

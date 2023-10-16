@@ -1,5 +1,5 @@
 <?php
-    include('connection1.php');
+    include('connection.php');
     session_start();
     if(isset($_POST['token']) && password_verify("logintoken",$_POST['token']))
     {

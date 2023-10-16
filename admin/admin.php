@@ -16,75 +16,70 @@
 <body>
     <section id="header">
         <div class="col-sm-12">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10">  
-                    <div class="box1">
-                        <div class="sign">
-                            <h1>SIGN IN</h1>
-                        </div>
-                        
-                        <div class="col-sm-12">
-                           <div class="col-sm-6">
-                                <div class="image">
-                                     <img src="admin1.jpg">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form">
-                                    <form>
-                                        <label for="text">Username:</label><br>
-                                        <input type="text" placeholder="Enter email" name="email" 
-                                        id="email" class="form-control"><br>
-                                        <label for="password">Password:</label><br>
-                                        <input type="password" class="form-control" placeholder="Enter Password" 
-                                            name="password" id="password"><br>
-                                        <div class="button2">
-                                            <button class="btn5" onclick="sendlogin();">SUBMIT</button>
-                                        </div>
-                                    </form>
-                                </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="box1">
+                    <div class="sign">
+                        <h1>SIGN IN</h1>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="image">
+                                <img src="admin1.jpg">
                             </div>
                         </div>
-                    </div>       
+                        <div class="col-sm-6">
+                            <div class="form">
+                                <form>
+                                    <label for="text">Username:</label><br>
+                                    <input type="email" placeholder="Enter email" name="email" id="email" class="form-control"><br>
+                                    <label for="password">Password:</label><br>
+                                    <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password"><br>
+                                    <div class="button2">
+                                        <button class="btn5" onclick="sendlogin();">SUBMIT</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-1"></div>
+            <div class="col-sm-2"></div>
         </div>
     </section>
 </body>
 <script type="text/javascript">
-    function sendlogin()
-    {
-       var email = document.getElementById('email').value;
-       var password = document.getElementById('password').value;
-       var token = "<?php echo password_hash("logintoken", PASSWORD_DEFAULT);?>";
-       if(email!=="" && password!=="")
-       {
-         $.ajax(
-                   {
-                       type: 'POST',
-                       url:"ajax/login.php",
-                       data:{email:email,password:password,token:token},
-                       success:function(data)
-                       {
-                        if(data==0){
-                            alert('login successfull');
-                            window.location="dashboard.php";
-                        }
-                        else{
-                            alert(data)
-                        }      
-                      }
+    function sendlogin() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var token = "<?php echo password_hash("logintoken", PASSWORD_DEFAULT); ?>";
+        if (email !== "" && password !== "") {
+            $.ajax({
+                type: 'POST',
+                url: "ajax/login.php",
+                data: {
+                    email: email,
+                    password: password,
+                    token: token
+                },
+                success: function(data) {
+                    if (data == 0) {
+                        alert('login successfull');
+                        window.location = "dashboard.php";
+                    } else {
+                        alert(data)
                     }
-                );
-       } 
-       else
-       {
-           alert('please fill all details');
-       }
+                }
+            });
+        } else {
+            alert('please fill all details');
+        }
     }
 </script>
 <script type="text/javascript">
     $('form').submit(function(e) {
-    e.preventDefault();
-});</script>
+        e.preventDefault();
+    });
+</script>
+
 </html>
